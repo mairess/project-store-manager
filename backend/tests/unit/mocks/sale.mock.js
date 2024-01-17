@@ -72,8 +72,23 @@ const notExistentProductMessageFromDB = {
   message: 'Sale not found',
 };
   
-const notExistentProductMessageFromModel = {
+const notExistentSaleMessageFromModel = {
   message: 'Sale not found',
+};
+
+const salesFromServiceSuccessful = {
+  status: 'SUCCESSFUL',
+  data: salesFromModel,
+};
+
+const saleFromServiceSuccessful = {
+  status: 'SUCCESSFUL',
+  data: saleFromModel,
+};
+
+const saleFromServiceUnsuccessful = {
+  status: 'NOT_FOUND',
+  data: notExistentSaleMessageFromModel,
 };
 
 module.exports = {
@@ -82,5 +97,8 @@ module.exports = {
   saleFromDB,
   saleFromModel,
   notExistentProductMessageFromDB,
-  notExistentProductMessageFromModel,
+  notExistentSaleMessageFromModel,
+  salesFromServiceSuccessful,
+  saleFromServiceSuccessful,
+  saleFromServiceUnsuccessful,
 };
