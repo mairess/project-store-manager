@@ -5,12 +5,12 @@ const sinonChai = require('sinon-chai');
 
 const { productService } = require('../../../src/services');
 const { 
-  ProductsFromServiceSuccessful,
+  productsFromServiceSuccessful,
   productsFromModel,
-  ProductFromServiceSuccessful,
+  productFromServiceSuccessful,
   productFromModel,
   notExistentProductMessageFromModel,
-  ProductFromServiceUnsuccessful,
+  productFromServiceUnsuccessful,
 } = require('../mocks/product.mock');
 const { productController } = require('../../../src/controllers');
 
@@ -18,7 +18,7 @@ chai.use(sinonChai);
 
 describe('Testing - PRODUCT CONTROLLER', function () {
   it('Returns a successful HTTP status and the corresponding product data.', async function () {
-    sinon.stub(productService, 'findAll').resolves(ProductsFromServiceSuccessful);
+    sinon.stub(productService, 'findAll').resolves(productsFromServiceSuccessful);
 
     const req = {
       params: { },
@@ -40,7 +40,7 @@ describe('Testing - PRODUCT CONTROLLER', function () {
   });
 
   it('Returns a successful HTTP status and a specified product data.', async function () {
-    sinon.stub(productService, 'findById').resolves(ProductFromServiceSuccessful);
+    sinon.stub(productService, 'findById').resolves(productFromServiceSuccessful);
 
     const req = {
       params: { id: 3 },
@@ -58,7 +58,7 @@ describe('Testing - PRODUCT CONTROLLER', function () {
   });
 
   it('Returns an unsuccessful HTTP status and a specified message.', async function () {
-    sinon.stub(productService, 'findById').resolves(ProductFromServiceUnsuccessful);
+    sinon.stub(productService, 'findById').resolves(productFromServiceUnsuccessful);
 
     const req = {
       params: { id: 999 },
@@ -72,6 +72,27 @@ describe('Testing - PRODUCT CONTROLLER', function () {
     await productController.findById(req, res);
 
     expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith(notExistentProductMessageFromModel);
+  });
+
+  it('Returns an internal server error HTTP status.', async function () {
+    sinon.stub(productService, 'findById').resolves({ status: 'inexistentStatus',
+      data: {
+        message: 'Product not found',
+      } });
+
+    const req = {
+      params: { id: 999 },
+      body: { },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    await productController.findById(req, res);
+
+    expect(res.status).to.have.been.calledWith(500);
     expect(res.json).to.have.been.calledWith(notExistentProductMessageFromModel);
   });
 });

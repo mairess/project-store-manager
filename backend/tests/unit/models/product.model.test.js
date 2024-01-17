@@ -7,7 +7,7 @@ const {
   productsFromModel,
   productFromDB,
   productFromModel,
-  notExistentProductFromDB,
+  notExistentProductMessageFromDB,
   notExistentProductMessageFromModel,
 } = require('../mocks/product.mock');
 
@@ -36,7 +36,7 @@ describe('Testing - PRODUCT MODEL', function () {
   });
 
   it('Does not return inexistent product.', async function () {
-    sinon.stub(connection, 'execute').resolves([[notExistentProductFromDB]]);
+    sinon.stub(connection, 'execute').resolves([[notExistentProductMessageFromDB]]);
     
     const inputData = 99;
     const productNotFoundMessage = await productModel.findById(inputData);
