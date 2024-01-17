@@ -69,11 +69,11 @@ const saleFromModel = [
 ];
 
 const notExistentProductMessageFromDB = {
-  message: 'Product not found',
+  message: 'Sale not found',
 };
   
 const notExistentProductMessageFromModel = {
-  message: 'Product not found',
+  message: 'Sale not found',
 };
 
 module.exports = {
