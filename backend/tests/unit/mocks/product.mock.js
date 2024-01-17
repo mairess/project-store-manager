@@ -46,6 +46,21 @@ const notExistentProductFromModel = {
   message: 'Product not found',
 };
 
+const ProductsFromServiceSuccessful = {
+  status: 'SUCCESSFUL',
+  data: productsFromModel,
+};
+
+const ProductFromServiceSuccessful = {
+  status: 'SUCCESSFUL',
+  data: productFromModel,
+};
+
+const ProductFromServiceUnsuccessful = {
+  status: 'NOT_FOUND',
+  data: notExistentProductFromModel,
+};
+
 module.exports = {
   productsFromDB,
   productsFromModel,
@@ -53,4 +68,7 @@ module.exports = {
   productFromModel,
   notExistentProductFromDB,
   notExistentProductFromModel,
+  ProductsFromServiceSuccessful,
+  ProductFromServiceSuccessful,
+  ProductFromServiceUnsuccessful,
 };

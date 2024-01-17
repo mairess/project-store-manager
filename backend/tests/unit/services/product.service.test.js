@@ -34,7 +34,7 @@ describe('Testing - PRODUCT SERVICE', function () {
     expect(serviceResponse.data).to.be.deep.equal(productFromModel);
   });
 
-  it('Returns a unsuccessful HTTP status and a specified message.', async function () {
+  it('Returns an unsuccessful HTTP status and a specified message.', async function () {
     sinon.stub(productModel, 'findById').resolves(undefined);
     
     const inputData = 9929999;
