@@ -8,7 +8,7 @@ const {
   productFromDB,
   productFromModel,
   notExistentProductFromDB,
-  notExistentProductFromModel,
+  notExistentProductMessageFromModel,
 } = require('../mocks/product.mock');
 
 describe('Testing - PRODUCT MODEL', function () {
@@ -42,6 +42,6 @@ describe('Testing - PRODUCT MODEL', function () {
     const productNotFoundMessage = await productModel.findById(inputData);
     
     expect(productNotFoundMessage).to.be.an('object');
-    expect(productNotFoundMessage).to.be.deep.equal(notExistentProductFromModel);
+    expect(productNotFoundMessage).to.be.deep.equal(notExistentProductMessageFromModel);
   });
 });

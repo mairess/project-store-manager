@@ -9,7 +9,7 @@ const {
   productsFromModel,
   ProductFromServiceSuccessful,
   productFromModel,
-  notExistentProductFromModel,
+  notExistentProductMessageFromModel,
   ProductFromServiceUnsuccessful,
 } = require('../mocks/product.mock');
 const { productController } = require('../../../src/controllers');
@@ -72,6 +72,6 @@ describe('Testing - PRODUCT CONTROLLER', function () {
     await productController.findById(req, res);
 
     expect(res.status).to.have.been.calledWith(404);
-    expect(res.json).to.have.been.calledWith(notExistentProductFromModel);
+    expect(res.json).to.have.been.calledWith(notExistentProductMessageFromModel);
   });
 });

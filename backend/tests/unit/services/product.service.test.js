@@ -6,7 +6,7 @@ const {
   productsFromModel,
   productFromDB,
   productFromModel,
-  notExistentProductFromModel,
+  notExistentProductMessageFromModel,
 } = require('../mocks/product.mock');
 const { productModel } = require('../../../src/models');
 
@@ -39,9 +39,8 @@ describe('Testing - PRODUCT SERVICE', function () {
     
     const inputData = 9929999;
     const serviceResponse = await productService.findById(inputData);
-    console.log('Status received:', serviceResponse.status);
 
     expect(serviceResponse.status).to.equal('NOT_FOUND');
-    expect(serviceResponse.data).to.be.deep.equal(notExistentProductFromModel);
+    expect(serviceResponse.data).to.be.deep.equal(notExistentProductMessageFromModel);
   });
 });

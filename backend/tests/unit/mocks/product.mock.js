@@ -42,7 +42,7 @@ const notExistentProductFromDB = {
   message: 'Product not found',
 };
 
-const notExistentProductFromModel = {
+const notExistentProductMessageFromModel = {
   message: 'Product not found',
 };
 
@@ -58,7 +58,7 @@ const ProductFromServiceSuccessful = {
 
 const ProductFromServiceUnsuccessful = {
   status: 'NOT_FOUND',
-  data: notExistentProductFromModel,
+  data: notExistentProductMessageFromModel,
 };
 
 module.exports = {
@@ -67,7 +67,7 @@ module.exports = {
   productFromDB,
   productFromModel,
   notExistentProductFromDB,
-  notExistentProductFromModel,
+  notExistentProductMessageFromModel,
   ProductsFromServiceSuccessful,
   ProductFromServiceSuccessful,
   ProductFromServiceUnsuccessful,
