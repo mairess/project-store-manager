@@ -7,8 +7,6 @@ const {
   salesFromModel,
   saleFromDB,
   saleFromModel,
-  notExistentProductMessageFromDB,
-  notExistentSaleMessageFromModel,
 } = require('../mocks/sale.mock');
 
 describe('Testing - SALE MODEL', function () {
