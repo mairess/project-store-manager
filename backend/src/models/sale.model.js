@@ -30,11 +30,9 @@ const findById = async (saleId) => {
 };
 
 const insertNewSale = async (products) => {
-  const [result] = await connection.execute(`
+  const [{ insertId: saleId }] = await connection.execute(`
   INSERT INTO sales (date) VALUES (NOW())
   `);
-
-  const saleId = result.insertId;
 
   const arrayOfPromises = products.map(async (product) => {
     const { productId, quantity } = product; 
