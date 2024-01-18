@@ -48,7 +48,7 @@ describe('Testing - PRODUCT MODEL', function () {
   });
 
   it('Creates a new product.', async function () {
-    sinon.stub(connection, 'execute').resolves([newProductFromDBSuccessful]);
+    sinon.stub(connection, 'execute').resolves([[newProductFromDBSuccessful]]);
     
     const inputData = 'Produto do bom';
     const newProduct = await productModel.insertNewProduct(inputData);
