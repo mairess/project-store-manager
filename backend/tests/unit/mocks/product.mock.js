@@ -65,6 +65,16 @@ const newProductFromDBSuccessful = { id: 26, name: 'Produto do bom' };
 
 const newProductFromServiceSuccessful = { id: 26, name: 'Produto do bom' };
 
+const createdProductFromDBSuccessful = {
+  status: 'CREATED',
+  data: newProductFromDBSuccessful,
+};
+
+const createdProductFromServiceSuccessful = {
+  status: 'CREATED',
+  data: newProductFromServiceSuccessful,
+};
+
 module.exports = {
   productsFromDB,
   productsFromModel,
@@ -77,4 +87,6 @@ module.exports = {
   productFromServiceUnsuccessful,
   newProductFromDBSuccessful,
   newProductFromServiceSuccessful,
+  createdProductFromDBSuccessful,
+  createdProductFromServiceSuccessful,
 };

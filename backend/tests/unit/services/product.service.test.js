@@ -7,6 +7,8 @@ const {
   productFromDB,
   productFromModel,
   notExistentProductMessageFromModel,
+  createdProductFromDBSuccessful,
+  createdProductFromServiceSuccessful,
 } = require('../mocks/product.mock');
 const { productModel } = require('../../../src/models');
 
@@ -42,5 +44,15 @@ describe('Testing - PRODUCT SERVICE', function () {
 
     expect(serviceResponse.status).to.equal('NOT_FOUND');
     expect(serviceResponse.data).to.be.deep.equal(notExistentProductMessageFromModel);
+  });
+
+  it('Create new product and returns successful HTTP status and created product.', async function () {
+    sinon.stub(productModel, 'insertNewProduct').resolves(createdProductFromDBSuccessful);
+    
+    const inputData = 'Produto do bom';
+    const serviceResponse = await productService.insertNewProduct(inputData);
+
+    expect(serviceResponse.status).to.equal('CREATED');
+    expect(serviceResponse.data).to.be.deep.equal(createdProductFromServiceSuccessful);
   });
 });
