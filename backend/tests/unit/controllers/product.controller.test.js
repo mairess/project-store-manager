@@ -11,6 +11,8 @@ const {
   productFromModel,
   notExistentProductMessageFromModel,
   productFromServiceUnsuccessful,
+  createdProductFromServiceSuccessful,
+  newProductFromServiceSuccessful,
 } = require('../mocks/product.mock');
 const { productController } = require('../../../src/controllers');
 
@@ -94,5 +96,23 @@ describe('Testing - PRODUCT CONTROLLER', function () {
 
     expect(res.status).to.have.been.calledWith(500);
     expect(res.json).to.have.been.calledWith(notExistentProductMessageFromModel);
+  });
+
+  it('Create new product and returns a successful HTTP status and the corresponding product data.', async function () {
+    sinon.stub(productService, 'insertNewProduct').resolves(createdProductFromServiceSuccessful);
+
+    const req = {
+      params: { },
+      body: { name: 'Produto do bom' },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    
+    await productController.insertNewProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(201);
+    expect(res.json).to.have.been.calledWith(newProductFromServiceSuccessful);
   });
 });
