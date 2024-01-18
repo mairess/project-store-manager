@@ -9,6 +9,7 @@ const {
   notExistentProductMessageFromModel,
   createdProductFromDBSuccessful,
   createdProductFromServiceSuccessful,
+  schemaNameRequiredMessage,
 } = require('../mocks/product.mock');
 const { productModel } = require('../../../src/models');
 
@@ -46,7 +47,7 @@ describe('Testing - PRODUCT SERVICE', function () {
     expect(serviceResponse.data).to.be.deep.equal(notExistentProductMessageFromModel);
   });
 
-  it('Create new product and returns successful HTTP status and created product.', async function () {
+  it('Creates new product and returns successful HTTP status and created product.', async function () {
     sinon.stub(productModel, 'insertNewProduct').resolves(createdProductFromDBSuccessful);
     
     const inputData = 'Produto do bom';
@@ -54,5 +55,15 @@ describe('Testing - PRODUCT SERVICE', function () {
 
     expect(serviceResponse.status).to.equal('CREATED');
     expect(serviceResponse.data).to.be.deep.equal(createdProductFromServiceSuccessful);
+  });
+
+  it('Does not create new product with name lass than 5 characters.', async function () {
+    sinon.stub(productModel, 'insertNewProduct').resolves(undefined);
+    
+    const inputData = 'aaa';
+    const serviceResponse = await productService.insertNewProduct(inputData);
+
+    expect(serviceResponse.status).to.equal('INVALID_VALUE');
+    expect(serviceResponse.data).to.be.deep.equal(schemaNameRequiredMessage);
   });
 });

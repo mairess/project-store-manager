@@ -75,6 +75,18 @@ const createdProductFromServiceSuccessful = {
   data: newProductFromServiceSuccessful,
 };
 
+const schemaNameMinCharMessage = {
+  message: '"name" is required',
+};
+
+const schemaNameRequiredMessage = {
+  message: '"name" length must be at least 5 characters long',
+};
+const createdProductFromServiceUnsuccessful = {
+  status: 'BAD_REQUEST',
+  data: schemaNameMinCharMessage,
+};
+
 module.exports = {
   productsFromDB,
   productsFromModel,
@@ -89,4 +101,7 @@ module.exports = {
   newProductFromServiceSuccessful,
   createdProductFromDBSuccessful,
   createdProductFromServiceSuccessful,
+  schemaNameMinCharMessage,
+  schemaNameRequiredMessage,
+  createdProductFromServiceUnsuccessful,
 };

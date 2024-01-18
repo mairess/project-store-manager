@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const chaiHttp = require('chai-http');
 const connection = require('../../src/models/connection');
-const { productsFromModel, productsFromDB, productFromDB, productFromModel } = require('../unit/mocks/product.mock');
+const { productsFromModel, productsFromDB, productFromDB, productFromModel, schemaNameMinCharMessage } = require('../unit/mocks/product.mock');
 const app = require('../../src/app');
 
 const { expect } = chai;
@@ -31,5 +31,27 @@ describe('Integration testing - PRODUCT ROUTE:', function () {
     
     expect(response.status).to.be.equal(200);
     expect(response.body).to.be.deep.equal(productFromModel);
+  });
+
+  it('Does not create new product without key "name".', async function () {
+    sinon.stub(connection, 'execute').resolves(undefined);
+
+    const response = await chai.request(app).post('/products');
+
+    expect(response.status).to.be.equal(400);
+    expect(response.body).to.be.deep.equal(schemaNameMinCharMessage);
+    // const req = {
+    //   params: { },
+    //   body: { age: 'Produto do bom' },
+    // };
+    // const res = {
+    //   status: sinon.stub().returnsThis(),
+    //   json: sinon.stub(),
+    // };
+
+    // await productService.insertNewProduct(req, res);
+
+    // expect(res.status).to.have.been.calledWith(400);
+    // expect(res.json).to.have.been.calledWith({ createdProductFromServiceUnsuccessful });
   });
 });
