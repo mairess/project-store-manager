@@ -17,8 +17,25 @@ const findById = async (saleId) => {
 };
 
 const insertNewSale = async (products) => {
-  const error = schema.validateCreateNewSale(products);
-  if (error) return { status: error.status, data: { message: error.message } };
+  const errorSchema = schema.validateCreateNewSale(products);
+  if (errorSchema) return { status: errorSchema.status, data: { message: errorSchema.message } };
+
+  const arrayOfPromises = products.map(async (product) => {
+    const id = product.productId;
+
+    const theProductFromModel = await findById(id);
+
+    if (theProductFromModel.status === 'NOT_FOUND') {
+      throw new Error('Product not found');
+    }
+  });
+
+  try {
+    await Promise.all(arrayOfPromises);
+  } catch (error) {
+    return { status: 'NOT_FOUND', data: { message: error.message } };
+  }
+
   const product = await saleModel.insertNewSale(products);
   return { status: 'CREATED', data: product };
 };
