@@ -9,6 +9,8 @@ const {
   productFromModel,
   notExistentProductMessageFromDB,
   notExistentProductMessageFromModel,
+  newProductFromDBSuccessful,
+  newProductFromServiceSuccessful,
 } = require('../mocks/product.mock');
 
 describe('Testing - PRODUCT MODEL', function () {
@@ -43,5 +45,15 @@ describe('Testing - PRODUCT MODEL', function () {
     
     expect(productNotFoundMessage).to.be.an('object');
     expect(productNotFoundMessage).to.be.deep.equal(notExistentProductMessageFromModel);
+  });
+
+  it('Creates a new product.', async function () {
+    sinon.stub(connection, 'execute').resolves([newProductFromDBSuccessful]);
+    
+    const inputData = 'Produto do bom';
+    const newProduct = await productModel.insertNewProduct(inputData);
+    
+    expect(newProduct).to.be.an('object');
+    expect(newProduct).to.be.deep.equal(newProductFromServiceSuccessful);
   });
 });
