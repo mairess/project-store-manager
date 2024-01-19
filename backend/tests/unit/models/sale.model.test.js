@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const { saleModel } = require('../../../src/models');
-const { 
+const {
   salesFromDB,
   salesFromModel,
   saleFromDB,
@@ -10,6 +10,10 @@ const {
 } = require('../mocks/sale.mock');
 
 describe('Testing - SALE MODEL', function () {
+  afterEach(function () {
+    sinon.restore();
+  });
+
   it('Returns all sales available.', async function () {
     sinon.stub(connection, 'execute').resolves([salesFromDB]);
     
@@ -19,11 +23,7 @@ describe('Testing - SALE MODEL', function () {
     expect(sales).to.be.deep.equal(salesFromModel);
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
-  it('Returns sales by specified id.', async function () {
+  it('Returns a sale specified by id.', async function () {
     sinon.stub(connection, 'execute').resolves([saleFromDB]);
     
     const inputData = 1;
@@ -33,7 +33,7 @@ describe('Testing - SALE MODEL', function () {
     expect(sale).to.be.deep.equal(saleFromModel);
   });
 
-  it('Does not return inexistent sales.', async function () {
+  it('Does not return a sale passing inexistent id.', async function () {
     sinon.stub(connection, 'execute').resolves([[]]);
     
     const inputData = 99;
