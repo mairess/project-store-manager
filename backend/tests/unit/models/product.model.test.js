@@ -51,7 +51,7 @@ describe('Testing - PRODUCT MODEL', function () {
     sinon.stub(connection, 'execute').resolves([newProductInsertIdFromDBSuccessful]);
     
     const inputData = 'Produto do bom';
-    const newProduct = await productModel.insertNewProduct(inputData);
+    const newProduct = await productModel.insertNewOne(inputData);
     
     expect(newProduct).to.be.an('object');
     expect(newProduct).to.be.deep.equal(newProductFromServiceSuccessful);

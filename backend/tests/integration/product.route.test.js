@@ -40,18 +40,5 @@ describe('Integration testing - PRODUCT ROUTE:', function () {
 
     expect(response.status).to.be.equal(400);
     expect(response.body).to.be.deep.equal(schemaNameMinCharMessage);
-    // const req = {
-    //   params: { },
-    //   body: { age: 'Produto do bom' },
-    // };
-    // const res = {
-    //   status: sinon.stub().returnsThis(),
-    //   json: sinon.stub(),
-    // };
-
-    // await productService.insertNewProduct(req, res);
-
-    // expect(res.status).to.have.been.calledWith(400);
-    // expect(res.json).to.have.been.calledWith({ createdProductFromServiceUnsuccessful });
   });
 });

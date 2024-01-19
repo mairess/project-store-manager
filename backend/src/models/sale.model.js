@@ -31,13 +31,15 @@ const findById = async (saleId) => {
 
 const insertNewSale = async (products) => {
   const [{ insertId: saleId }] = await connection.execute(`
-  INSERT INTO sales (date) VALUES (NOW())
+  INSERT INTO sales (date) 
+    VALUES (NOW())
   `);
 
   const arrayOfPromises = products.map(async (product) => {
     const { productId, quantity } = product; 
     await connection.execute(`
-    INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)
+    INSERT INTO sales_products (sale_id, product_id, quantity) 
+    VALUES (?, ?, ?)
     `, [saleId, productId, quantity]);
   });
 
