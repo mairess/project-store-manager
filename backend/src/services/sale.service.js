@@ -3,7 +3,6 @@ const schema = require('./validations/validationsInputValues');
 
 const findAll = async () => {
   const sales = await saleModel.findAll();
-  console.log('findAll', sales);
   return { status: 'SUCCESSFUL', data: sales };
 };
 
