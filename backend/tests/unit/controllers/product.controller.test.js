@@ -13,6 +13,8 @@ const {
   productFromServiceUnsuccessful,
   createdProductFromServiceSuccessful,
   newProductFromServiceSuccessful,
+  schemaNameMinCharMessage,
+  schemaNameRequiredMessage,
 } = require('../mocks/product.mock');
 const { productController } = require('../../../src/controllers');
 
@@ -114,5 +116,43 @@ describe('Testing - PRODUCT CONTROLLER', function () {
 
     expect(res.status).to.have.been.calledWith(201);
     expect(res.json).to.have.been.calledWith(newProductFromServiceSuccessful);
+  });
+
+  it('Does not update product missing key "name".', async function () {
+    sinon.stub(productService, 'update').resolves(undefined);
+    sinon.stub(productService, 'findById').resolves(undefined);
+
+    const req = {
+      params: { id: 2 },
+      body: { age: 'Produto do bom' },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    
+    await productController.insertNew(req, res);
+
+    expect(res.status).to.have.been.calledWith(400);
+    expect(res.json).to.have.been.calledWith(schemaNameMinCharMessage);
+  });
+
+  it('Does not update product with name lass than 5 characters.', async function () {
+    sinon.stub(productService, 'update').resolves(undefined);
+    sinon.stub(productService, 'findById').resolves(undefined);
+
+    const req = {
+      params: { id: 2 },
+      body: { name: 'Capa' },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    
+    await productController.insertNew(req, res);
+
+    expect(res.status).to.have.been.calledWith(422);
+    expect(res.json).to.have.been.calledWith(schemaNameRequiredMessage);
   });
 });
