@@ -81,4 +81,16 @@ describe('Testing - PRODUCT SERVICE', function () {
     expect(serviceResponse.status).to.equal('SUCCESSFUL');
     expect(serviceResponse.data).to.be.deep.equal(updatedProductSuccessfulFromService);
   });
+
+  it('Does not update product that not exists - SERVICE.', async function () {
+    sinon.stub(productModel, 'update').resolves(undefined);
+    sinon.stub(productModel, 'findById').resolves(undefined);
+    
+    const inputName = 'Capa do Batman';
+    const inputId = 99999;
+    const serviceResponse = await productService.update(inputId, inputName);
+
+    expect(serviceResponse.status).to.equal('NOT_FOUND');
+    expect(serviceResponse.data).to.be.deep.equal({ message: 'Product not found' });
+  });
 });
