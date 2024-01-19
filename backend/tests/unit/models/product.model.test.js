@@ -1,5 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
+const chai = require('chai');
+const sinonChai = require('sinon-chai');
 const connection = require('../../../src/models/connection');
 const { productModel } = require('../../../src/models');
 const { 
@@ -14,6 +16,8 @@ const {
   updatedProductFromDB,
   updatedProductFromServiceSuccessful,
 } = require('../mocks/product.mock');
+
+chai.use(sinonChai);
 
 describe('Testing - PRODUCT MODEL', function () {
   it('Returns all products available.', async function () {
@@ -68,5 +72,16 @@ describe('Testing - PRODUCT MODEL', function () {
     
     expect(newProduct).to.be.an('object');
     expect(newProduct).to.be.deep.equal(updatedProductFromServiceSuccessful);
+  });
+
+  it('Deletes a product.', async function () {
+    const connectionMocked = sinon.stub(connection, 'execute').resolves(undefined);
+    
+    const inputId = 2;
+    await productModel.remove(inputId);
+
+    sinon.assert.calledOnce(connectionMocked);
+    
+    expect(connectionMocked.called).to.equal(true);
   });
 });

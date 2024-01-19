@@ -7,6 +7,7 @@ const findAll = async () => {
 
 const findById = async (productId) => {
   const [[product]] = await connection.execute('SELECT * FROM products WHERE id = ?', [productId]);
+
   return product;
 };
 
@@ -23,11 +24,10 @@ const update = async (productId, name) => {
 };
 
 const remove = async (productId) => {
-  const deletedId = await connection
+  await connection
     .execute(`
     DELETE FROM products WHERE id = ?
     `, [productId]);
-  return { id: Number(productId), deletedId };
 };
   
 module.exports = {

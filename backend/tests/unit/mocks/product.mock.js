@@ -114,6 +114,13 @@ const toUpdateProductFromModel = {
   name: 'Traje de encolhimento',
 };
 
+const deletedProductFromDBSuccessful = { insertId: 2 };
+
+const deletedProductFromServiceSuccessful = {
+  id: 2,
+  name: 'Traje de encolhimento',
+};
+
 module.exports = {
   productsFromDB,
   productsFromModel,
@@ -137,4 +144,6 @@ module.exports = {
   updatedProductSuccessfulFromModel,
   toUpdateProductFromModel,
   updatedProductSuccessfulFromService,
+  deletedProductFromDBSuccessful,
+  deletedProductFromServiceSuccessful,
 };

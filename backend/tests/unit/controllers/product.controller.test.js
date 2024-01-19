@@ -155,4 +155,42 @@ describe('Testing - PRODUCT CONTROLLER', function () {
     expect(res.status).to.have.been.calledWith(422);
     expect(res.json).to.have.been.calledWith(schemaNameRequiredMessage);
   });
+
+  it('Deletes a product.', async function () {
+    sinon.stub(productService, 'remove').resolves({ status: 'NO_CONTENT', data: null });
+    sinon.stub(productService, 'findById').resolves({ id: 3, name: 'Escudo do Capitão América' });
+
+    const req = {
+      params: { id: 3 },
+      body: { },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    
+    await productController.remove(req, res);
+
+    expect(res.status).to.have.been.calledWith(204);
+    expect(res.json).to.have.been.calledWith(null);
+  });
+
+  it('Does not delete product not found.', async function () {
+    sinon.stub(productService, 'remove').resolves({ status: 'NOT_FOUND', data: { message: 'Product not found' } });
+    sinon.stub(productService, 'findById').resolves({ status: 'NOT_FOUND', data: { message: 'Product not found' } });
+
+    const req = {
+      params: { id: 3999 },
+      body: { },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    
+    await productController.remove(req, res);
+
+    expect(res.status).to.have.been.calledWith(404);
+    expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
+  });
 });
