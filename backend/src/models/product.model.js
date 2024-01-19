@@ -1,13 +1,12 @@
 const connection = require('./connection');
 
 const findAll = async () => {
-  const [products] = await connection.execute('SELECT * FROM products ORDER BY id ASC');
+  const [products] = await connection.execute('SELECT * FROM products ORDER BY id ASC'); 
   return products;
 };
 
 const findById = async (productId) => {
-  const [[product]] = await connection.execute('SELECT * FROM products WHERE id = ?', [productId]);
-
+  const [[product]] = await connection.execute('SELECT * FROM products WHERE id = ?', [productId]); 
   return product;
 };
 
@@ -19,7 +18,7 @@ const insertNew = async (name) => {
 
 const update = async (productId, name) => {
   await connection
-    .execute('UPDATE products SET name = ? WHERE id = ?', [name, productId]);
+    .execute('UPDATE products SET name = ? WHERE id = ?', [name, productId]);  
   return { id: Number(productId), name };
 };
 

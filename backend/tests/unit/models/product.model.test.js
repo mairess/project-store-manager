@@ -9,17 +9,17 @@ const {
   productsFromModel,
   productFromDB,
   productFromModel,
-  notExistentProductMessageFromDB,
-  notExistentProductMessageFromModel,
-  newProductInsertIdFromDBSuccessful,
-  newProductFromServiceSuccessful,
-  updatedProductFromDB,
-  updatedProductFromServiceSuccessful,
-} = require('../mocks/product.mock');
+  insertedProductFromModel,
+  updatedProductFromModel,
+} = require('../mocks/product.mock.ts');
 
 chai.use(sinonChai);
 
 describe('Testing - PRODUCT MODEL', function () {
+  afterEach(function () {
+    sinon.restore();
+  });
+
   it('Returns all products available.', async function () {
     sinon.stub(connection, 'execute').resolves([productsFromDB]);
     
@@ -29,52 +29,47 @@ describe('Testing - PRODUCT MODEL', function () {
     expect(products).to.be.deep.equal(productsFromModel);
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
-  it('Returns a product by specified id.', async function () {
+  it('Returns a product specified by id.', async function () {
     sinon.stub(connection, 'execute').resolves([[productFromDB]]);
     
-    const inputData = 3;
+    const inputData = 2;
     const product = await productModel.findById(inputData);
 
     expect(product).to.be.an('object');
     expect(product).to.be.deep.equal(productFromModel);
   });
 
-  it('Does not return inexistent product.', async function () {
-    sinon.stub(connection, 'execute').resolves([[notExistentProductMessageFromDB]]);
+  it('Does not return a product passing inexistent id.', async function () {
+    sinon.stub(connection, 'execute').resolves([[undefined]]);
     
     const inputData = 99;
     const productNotFoundMessage = await productModel.findById(inputData);
     
-    expect(productNotFoundMessage).to.be.an('object');
-    expect(productNotFoundMessage).to.be.deep.equal(notExistentProductMessageFromModel);
+    expect(productNotFoundMessage).to.equal(undefined);
   });
 
   it('Creates a new product.', async function () {
-    sinon.stub(connection, 'execute').resolves([newProductInsertIdFromDBSuccessful]);
+    sinon.stub(connection, 'execute').resolves([{ insertId: 26 }]);
     
     const inputData = 'Produto do bom';
     const newProduct = await productModel.insertNew(inputData);
     
     expect(newProduct).to.be.an('object');
-    expect(newProduct).to.be.deep.equal(newProductFromServiceSuccessful);
+    expect(newProduct).to.be.deep.equal(insertedProductFromModel);
   });
 
   it('Updates a product.', async function () {
-    sinon.stub(connection, 'execute').resolves(updatedProductFromDB);
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
     
     const inputName = 'Capa do Batman';
     const inputId = 2;
     const newProduct = await productModel.update(inputId, inputName);
     
     expect(newProduct).to.be.an('object');
-    expect(newProduct).to.be.deep.equal(updatedProductFromServiceSuccessful);
+    expect(newProduct).to.be.deep.equal(updatedProductFromModel);
   });
 
-  it('Deletes a product.', async function () {
+  it('Removes a product.', async function () {
     const connectionMocked = sinon.stub(connection, 'execute').resolves(undefined);
     
     const inputId = 2;

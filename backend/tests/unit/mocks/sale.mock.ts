@@ -25,19 +25,19 @@ const salesFromModel = [
   {
     saleId: 1,
     date: theDate,
-    productId: 1,
+    product_id: 1,
     quantity: 5,
   },
   {
     saleId: 1,
     date: theDate,
-    productId: 2,
+    product_id: 2,
     quantity: 10,
   },
   {
     saleId: 2,
     date: theDate,
-    productId: 3,
+    product_id: 3,
     quantity: 15,
   },
 ];
