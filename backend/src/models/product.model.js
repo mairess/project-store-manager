@@ -21,10 +21,19 @@ const update = async (productId, name) => {
     .execute('UPDATE products SET name = ? WHERE id = ?', [name, productId]);
   return { id: Number(productId), name };
 };
+
+const remove = async (productId) => {
+  const deletedId = await connection
+    .execute(`
+    DELETE FROM products WHERE id = ?
+    `, [productId]);
+  return { id: Number(productId), deletedId };
+};
   
 module.exports = {
   findAll,
   findById,
   insertNew,
   update,
+  remove,
 };

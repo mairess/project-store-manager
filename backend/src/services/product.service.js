@@ -32,9 +32,17 @@ const update = async (productId, name) => {
   return { status: 'SUCCESSFUL', data: product };
 };
 
+const remove = async (productId) => {
+  const productExists = await productModel.findById(productId);
+  if (!productExists) return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
+  const product = await productModel.remove(productId);
+  return { status: 'NO_CONTENT', data: product };
+};
+
 module.exports = {
   findAll,
   findById,
   insertNew,
   update,
+  remove,
 };
