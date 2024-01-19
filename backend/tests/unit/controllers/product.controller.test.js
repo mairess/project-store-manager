@@ -2,27 +2,28 @@ const chai = require('chai');
 const { expect } = require('chai');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
-
 const { productService } = require('../../../src/services');
-const { 
-  productsFromServiceSuccessful,
-  productsFromModel,
-  productFromServiceSuccessful,
-  productFromModel,
-  notExistentProductMessageFromModel,
-  productFromServiceUnsuccessful,
-  createdProductFromServiceSuccessful,
-  newProductFromServiceSuccessful,
-  schemaNameMinCharMessage,
-  schemaNameRequiredMessage,
-} = require('../mocks/product.mock');
 const { productController } = require('../../../src/controllers');
+const { 
+  productsFromService,
+  productsFromModel,
+  productFromService,
+  productFromModel,
+  productNotFoundMessage,
+  notFoundProductFromService,
+  insertedProductFromService,
+  updatedProductFromModel,
+} = require('../mocks/product.mock.ts');
 
 chai.use(sinonChai);
 
 describe('Testing - PRODUCT CONTROLLER', function () {
-  it('Returns a successful HTTP status and the corresponding product data.', async function () {
-    sinon.stub(productService, 'findAll').resolves(productsFromServiceSuccessful);
+  afterEach(function () {
+    sinon.restore();
+  });
+
+  it('Returns all available products.', async function () {
+    sinon.stub(productService, 'findAll').resolves(productsFromService);
 
     const req = {
       params: { },
@@ -39,12 +40,8 @@ describe('Testing - PRODUCT CONTROLLER', function () {
     expect(res.json).to.have.been.calledWith(productsFromModel);
   });
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
-  it('Returns a successful HTTP status and a specified product data.', async function () {
-    sinon.stub(productService, 'findById').resolves(productFromServiceSuccessful);
+  it('Returns a product by specified id.', async function () {
+    sinon.stub(productService, 'findById').resolves(productFromService);
 
     const req = {
       params: { id: 3 },
@@ -61,8 +58,8 @@ describe('Testing - PRODUCT CONTROLLER', function () {
     expect(res.json).to.have.been.calledWith(productFromModel);
   });
 
-  it('Returns an unsuccessful HTTP status and a specified message.', async function () {
-    sinon.stub(productService, 'findById').resolves(productFromServiceUnsuccessful);
+  it('Does not return a product passing inexistent id .', async function () {
+    sinon.stub(productService, 'findById').resolves(notFoundProductFromService);
 
     const req = {
       params: { id: 999 },
@@ -76,13 +73,14 @@ describe('Testing - PRODUCT CONTROLLER', function () {
     await productController.findById(req, res);
 
     expect(res.status).to.have.been.calledWith(404);
-    expect(res.json).to.have.been.calledWith(notExistentProductMessageFromModel);
+    expect(res.json).to.have.been.calledWith(productNotFoundMessage);
   });
 
-  it('Returns an internal server error HTTP status.', async function () {
+  it('Does not return a product passing inexistent id. Status code 500.', async function () {
+    const notFoundMessage = 'Product not founds'; 
     sinon.stub(productService, 'findById').resolves({ status: 'inexistentStatus',
       data: {
-        message: 'Product not found',
+        message: notFoundMessage,
       } });
 
     const req = {
@@ -97,11 +95,11 @@ describe('Testing - PRODUCT CONTROLLER', function () {
     await productController.findById(req, res);
 
     expect(res.status).to.have.been.calledWith(500);
-    expect(res.json).to.have.been.calledWith(notExistentProductMessageFromModel);
+    expect(res.json).to.have.been.calledWith({ message: notFoundMessage });
   });
 
-  it('Create new product and returns a successful HTTP status and the corresponding product data.', async function () {
-    sinon.stub(productService, 'insertNew').resolves(createdProductFromServiceSuccessful);
+  it('Inserts a new product.', async function () {
+    sinon.stub(productService, 'insertNew').resolves(insertedProductFromService);
 
     const req = {
       params: { },
@@ -115,7 +113,7 @@ describe('Testing - PRODUCT CONTROLLER', function () {
     await productController.insertNew(req, res);
 
     expect(res.status).to.have.been.calledWith(201);
-    expect(res.json).to.have.been.calledWith(newProductFromServiceSuccessful);
+    expect(res.json).to.have.been.calledWith(updatedProductFromModel);
   });
 
   it('Does not update product missing key "name".', async function () {
@@ -134,7 +132,7 @@ describe('Testing - PRODUCT CONTROLLER', function () {
     await productController.insertNew(req, res);
 
     expect(res.status).to.have.been.calledWith(400);
-    expect(res.json).to.have.been.calledWith(schemaNameMinCharMessage);
+    expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
   });
 
   it('Does not update product with name lass than 5 characters.', async function () {
@@ -153,7 +151,9 @@ describe('Testing - PRODUCT CONTROLLER', function () {
     await productController.insertNew(req, res);
 
     expect(res.status).to.have.been.calledWith(422);
-    expect(res.json).to.have.been.calledWith(schemaNameRequiredMessage);
+    expect(res.json).to.have.been.calledWith({ 
+      message: '"name" length must be at least 5 characters long',
+    });
   });
 
   it('Deletes a product.', async function () {
