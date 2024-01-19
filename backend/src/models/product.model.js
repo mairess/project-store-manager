@@ -10,7 +10,7 @@ const findById = async (productId) => {
   return product;
 };
 
-const insertNewOne = async (name) => {
+const insertNew = async (name) => {
   const [{ insertId }] = await connection
     .execute('INSERT INTO products (name) VALUES (?)', [name]);
   return { id: insertId, name };
@@ -19,5 +19,5 @@ const insertNewOne = async (name) => {
 module.exports = {
   findAll,
   findById,
-  insertNewOne,
+  insertNew,
 };

@@ -16,15 +16,15 @@ const findById = async (productId) => {
   return { status: 'SUCCESSFUL', data: product };
 };
 
-const insertNewOne = async (name) => {
-  const error = schema.validateCreateNewProduct({ name });
-  if (error) return { status: error.status, data: { message: error.message } };
-  const product = await productModel.insertNewOne(name);
+const insertNew = async (name) => {
+  const errorSchema = schema.validateCreateNewProduct({ name });
+  if (errorSchema) return { status: errorSchema.status, data: { message: errorSchema.message } };
+  const product = await productModel.insertNew(name);
   return { status: 'CREATED', data: product };
 };
 
 module.exports = {
   findAll,
   findById,
-  insertNewOne,
+  insertNew,
 };

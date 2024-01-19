@@ -48,20 +48,20 @@ describe('Testing - PRODUCT SERVICE', function () {
   });
 
   it('Creates new product and returns successful HTTP status and created product.', async function () {
-    sinon.stub(productModel, 'insertNewOne').resolves(createdProductFromDBSuccessful);
+    sinon.stub(productModel, 'insertNew').resolves(createdProductFromDBSuccessful);
     
     const inputData = 'Produto do bom';
-    const serviceResponse = await productService.insertNewOne(inputData);
+    const serviceResponse = await productService.insertNew(inputData);
 
     expect(serviceResponse.status).to.equal('CREATED');
     expect(serviceResponse.data).to.be.deep.equal(createdProductFromServiceSuccessful);
   });
 
   it('Does not create new product with name lass than 5 characters.', async function () {
-    sinon.stub(productModel, 'insertNewOne').resolves(undefined);
+    sinon.stub(productModel, 'insertNew').resolves(undefined);
     
     const inputData = 'aaa';
-    const serviceResponse = await productService.insertNewOne(inputData);
+    const serviceResponse = await productService.insertNew(inputData);
 
     expect(serviceResponse.status).to.equal('INVALID_VALUE');
     expect(serviceResponse.data).to.be.deep.equal(schemaNameRequiredMessage);

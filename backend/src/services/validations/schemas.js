@@ -4,7 +4,7 @@ const addNewProductSchema = Joi.object({
   name: Joi.string().min(5).required(),
 });
 
-const productSchema = Joi.object({
+const salesProductSchema = Joi.object({
   productId: Joi
     .number()
     .integer()
@@ -26,7 +26,7 @@ const productSchema = Joi.object({
     }),
 });
 
-const addNewSaleSchema = Joi.array().items(productSchema);
+const addNewSaleSchema = Joi.array().items(salesProductSchema);
 
 module.exports = {
   addNewProductSchema,

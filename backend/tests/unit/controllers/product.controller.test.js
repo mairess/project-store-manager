@@ -99,7 +99,7 @@ describe('Testing - PRODUCT CONTROLLER', function () {
   });
 
   it('Create new product and returns a successful HTTP status and the corresponding product data.', async function () {
-    sinon.stub(productService, 'insertNewOne').resolves(createdProductFromServiceSuccessful);
+    sinon.stub(productService, 'insertNew').resolves(createdProductFromServiceSuccessful);
 
     const req = {
       params: { },
@@ -110,7 +110,7 @@ describe('Testing - PRODUCT CONTROLLER', function () {
       json: sinon.stub(),
     };
     
-    await productController.insertNewOne(req, res);
+    await productController.insertNew(req, res);
 
     expect(res.status).to.have.been.calledWith(201);
     expect(res.json).to.have.been.calledWith(newProductFromServiceSuccessful);

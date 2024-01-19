@@ -12,7 +12,6 @@ const validateCreateNewProduct = (keysObjectToValidate) => {
 };
 
 const validateCreateNewSale = (keysObjectToValidate) => {
-  console.log('obejto para validação', keysObjectToValidate);
   const { error } = addNewSaleSchema.validate(keysObjectToValidate);
 
   if (error) {

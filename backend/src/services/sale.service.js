@@ -16,32 +16,32 @@ const findById = async (saleId) => {
   return { status: 'SUCCESSFUL', data: sale };
 };
 
-const insertNewSale = async (products) => {
-  const errorSchema = schema.validateCreateNewSale(products);
+const insertNew = async (salesProduct) => {
+  const errorSchema = schema.validateCreateNewSale(salesProduct);
   if (errorSchema) return { status: errorSchema.status, data: { message: errorSchema.message } };
 
-  const arrayOfPromises = products.map(async (product) => {
-    const id = product.productId;
-
-    const theProductFromModel = await findById(id);
-
-    if (theProductFromModel.status === 'NOT_FOUND') {
-      throw new Error('Product not found');
-    }
-  });
-
   try {
+    const arrayOfPromises = salesProduct.map(async (product) => {
+      const id = product.productId;
+
+      const theProductFromModel = await findById(id);
+
+      if (theProductFromModel.status === 'NOT_FOUND') {
+        throw new Error('Product not found');
+      }
+    });
+
     await Promise.all(arrayOfPromises);
   } catch (error) {
     return { status: 'NOT_FOUND', data: { message: error.message } };
   }
 
-  const product = await saleModel.insertNewSale(products);
+  const product = await saleModel.insertNew(salesProduct);
   return { status: 'CREATED', data: product };
 };
 
 module.exports = {
   findAll,
   findById,
-  insertNewSale,
+  insertNew,
 };
