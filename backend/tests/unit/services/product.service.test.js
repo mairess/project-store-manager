@@ -10,6 +10,9 @@ const {
   createdProductFromDBSuccessful,
   createdProductFromServiceSuccessful,
   schemaNameRequiredMessage,
+  updatedProductSuccessfulFromModel,
+  toUpdateProductFromModel,
+  updatedProductSuccessfulFromService,
 } = require('../mocks/product.mock');
 const { productModel } = require('../../../src/models');
 
@@ -65,5 +68,17 @@ describe('Testing - PRODUCT SERVICE', function () {
 
     expect(serviceResponse.status).to.equal('INVALID_VALUE');
     expect(serviceResponse.data).to.be.deep.equal(schemaNameRequiredMessage);
+  });
+
+  it('Update a product - SERVICE.', async function () {
+    sinon.stub(productModel, 'update').resolves(updatedProductSuccessfulFromModel);
+    sinon.stub(productModel, 'findById').resolves(toUpdateProductFromModel);
+    
+    const inputName = 'Capa do Batman';
+    const inputId = 2;
+    const serviceResponse = await productService.update(inputId, inputName);
+
+    expect(serviceResponse.status).to.equal('SUCCESSFUL');
+    expect(serviceResponse.data).to.be.deep.equal(updatedProductSuccessfulFromService);
   });
 });

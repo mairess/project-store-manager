@@ -99,6 +99,21 @@ const updatedProductFromServiceSuccessful = {
   name: 'Capa do Batman',
 };
 
+const updatedProductSuccessfulFromModel = {
+  id: 2,
+  name: 'Capa do Batman',
+};
+
+const updatedProductSuccessfulFromService = {
+  id: 2,
+  name: 'Capa do Batman',
+};
+
+const toUpdateProductFromModel = {
+  id: 2,
+  name: 'Traje de encolhimento',
+};
+
 module.exports = {
   productsFromDB,
   productsFromModel,
@@ -119,4 +134,7 @@ module.exports = {
   newProductInsertIdFromDBSuccessful,
   updatedProductFromDB,
   updatedProductFromServiceSuccessful,
+  updatedProductSuccessfulFromModel,
+  toUpdateProductFromModel,
+  updatedProductSuccessfulFromService,
 };
