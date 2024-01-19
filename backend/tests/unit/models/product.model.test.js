@@ -11,6 +11,8 @@ const {
   notExistentProductMessageFromModel,
   newProductInsertIdFromDBSuccessful,
   newProductFromServiceSuccessful,
+  updatedProductFromDB,
+  updatedProductFromServiceSuccessful,
 } = require('../mocks/product.mock');
 
 describe('Testing - PRODUCT MODEL', function () {
@@ -55,5 +57,16 @@ describe('Testing - PRODUCT MODEL', function () {
     
     expect(newProduct).to.be.an('object');
     expect(newProduct).to.be.deep.equal(newProductFromServiceSuccessful);
+  });
+
+  it('Updates a product.', async function () {
+    sinon.stub(connection, 'execute').resolves(updatedProductFromDB);
+    
+    const inputName = 'Capa do Batman';
+    const inputId = 2;
+    const newProduct = await productModel.update(inputId, inputName);
+    
+    expect(newProduct).to.be.an('object');
+    expect(newProduct).to.be.deep.equal(updatedProductFromServiceSuccessful);
   });
 });

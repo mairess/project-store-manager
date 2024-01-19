@@ -89,6 +89,16 @@ const createdProductFromServiceUnsuccessful = {
   data: schemaNameMinCharMessage,
 };
 
+const updatedProductFromDB = {
+  id: 2,
+  name: 'Capa do Batman',
+};
+
+const updatedProductFromServiceSuccessful = {
+  id: 2,
+  name: 'Capa do Batman',
+};
+
 module.exports = {
   productsFromDB,
   productsFromModel,
@@ -107,4 +117,6 @@ module.exports = {
   schemaNameRequiredMessage,
   createdProductFromServiceUnsuccessful,
   newProductInsertIdFromDBSuccessful,
+  updatedProductFromDB,
+  updatedProductFromServiceSuccessful,
 };
