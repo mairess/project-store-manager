@@ -13,7 +13,7 @@ const {
   notFoundProductFromService,
   insertedProductFromService,
   updatedProductFromModel,
-} = require('../mocks/product.mock.js');
+} = require('../mocks/product.mock');
 
 chai.use(sinonChai);
 

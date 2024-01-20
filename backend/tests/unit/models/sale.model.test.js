@@ -7,7 +7,7 @@ const {
   salesFromModel,
   saleFromDB,
   saleFromModel,
-} = require('../mocks/sale.mock.js');
+} = require('../mocks/sale.mock');
 
 describe('Testing - SALE MODEL', function () {
   afterEach(function () {

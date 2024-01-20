@@ -8,7 +8,7 @@ const {
   productsFromDB,
   productFromDB,
   productFromModel,
-} = require('../unit/mocks/product.mock.js');
+} = require('../unit/mocks/product.mock');
 const app = require('../../src/app');
 
 const { expect } = chai;
@@ -16,6 +16,9 @@ chai.use(sinonChai);
 chai.use(chaiHttp);
 
 describe('Integration testing - PRODUCT ROUTE:', function () {
+  afterEach(function () {
+    sinon.restore();
+  });
   it('Retrieve all products.', async function () {
     sinon.stub(connection, 'execute').resolves([productsFromDB]);
 
@@ -23,10 +26,6 @@ describe('Integration testing - PRODUCT ROUTE:', function () {
     
     expect(response.status).to.be.equal(200);
     expect(response.body).to.be.deep.equal(productsFromModel);
-  });
-
-  afterEach(function () {
-    sinon.restore();
   });
   
   it('Returns a product by specified id.', async function () {

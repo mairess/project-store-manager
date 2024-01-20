@@ -11,7 +11,7 @@ const {
   saleFromModel,
   saleNotFoundMessage,
   saleNoFoundFromService,
-} = require('../mocks/sale.mock.js');
+} = require('../mocks/sale.mock');
 
 chai.use(sinonChai);
 

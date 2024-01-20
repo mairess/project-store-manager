@@ -9,7 +9,7 @@ const {
   productFromModel,
   createdProductFromDBSuccessful,
   createdProductFromServiceSuccessful,
-} = require('../mocks/product.mock.js');
+} = require('../mocks/product.mock');
 
 describe('Testing - PRODUCT SERVICE', function () {
   it('Returns a successful HTTP status and the corresponding product data.', async function () {
