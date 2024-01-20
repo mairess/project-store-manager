@@ -1,124 +1,54 @@
+const traje = 'Traje de encolhimento';
 const productsFromDB = [
-  {
-    id: 1,
-    name: 'Martelo de Thor',
-  },
-  {
-    id: 2,
-    name: 'Traje de encolhimento',
-  },
-  {
-    id: 3,
-    name: 'Escudo do CapitÃ£o AmÃ©rica',
-  },
+  { id: 1, name: 'Martelo de Thor' },
+  { id: 2, name: traje },
+  { id: 3, name: 'Escudo do CapitÃ£o AmÃ©rica' },
 ];
 
 const productsFromModel = [
-  {
-    id: 1,
-    name: 'Martelo de Thor',
-  },
-  {
-    id: 2,
-    name: 'Traje de encolhimento',
-  },
-  {
-    id: 3,
-    name: 'Escudo do CapitÃ£o AmÃ©rica',
-  },
+  { id: 1, name: 'Martelo de Thor' },
+  { id: 2, name: traje },
+  { id: 3, name: 'Escudo do CapitÃ£o AmÃ©rica' },
 ];
 
-const productFromDB = {
-  id: 3,
-  name: 'Escudo do Capitão América',
-};
+const productFromDB = { id: 2, name: traje };
 
-const productFromModel = {
-  id: 3,
-  name: 'Escudo do Capitão América',
-};
+const productFromModel = { id: 2, name: traje };
 
-const notExistentProductMessageFromDB = {
-  message: 'Product not found',
-};
+const insertedProductFromModel = { id: 26, name: 'Produto do bom' };
 
-const notExistentProductMessageFromModel = {
-  message: 'Product not found',
-};
-
-const productsFromServiceSuccessful = {
-  status: 'SUCCESSFUL',
-  data: productsFromModel,
-};
-
-const productFromServiceSuccessful = {
-  status: 'SUCCESSFUL',
-  data: productFromModel,
-};
-
-const productFromServiceUnsuccessful = {
-  status: 'NOT_FOUND',
-  data: notExistentProductMessageFromModel,
-};
-
-const newProductFromDBSuccessful = { id: 26, name: 'Produto do bom' };
-
-const newProductInsertIdFromDBSuccessful = { insertId: 26 };
-
-const newProductFromServiceSuccessful = { id: 26, name: 'Produto do bom' };
-
-const createdProductFromDBSuccessful = {
-  status: 'CREATED',
-  data: newProductFromDBSuccessful,
-};
-
-const createdProductFromServiceSuccessful = {
-  status: 'CREATED',
-  data: newProductFromServiceSuccessful,
-};
-
-const schemaNameMinCharMessage = {
-  message: '"name" is required',
-};
-
-const schemaNameRequiredMessage = {
-  message: '"name" length must be at least 5 characters long',
-};
-const createdProductFromServiceUnsuccessful = {
-  status: 'BAD_REQUEST',
-  data: schemaNameMinCharMessage,
-};
-
-const updatedProductFromDB = {
-  id: 2,
-  name: 'Capa do Batman',
-};
-
-const updatedProductFromServiceSuccessful = {
-  id: 2,
-  name: 'Capa do Batman',
-};
-
-const updatedProductSuccessfulFromModel = {
-  id: 2,
-  name: 'Capa do Batman',
-};
-
-const updatedProductSuccessfulFromService = {
+const updatedProductFromModel = {
   id: 2,
   name: 'Capa do Batman',
 };
 
 const toUpdateProductFromModel = {
   id: 2,
-  name: 'Traje de encolhimento',
+  name: traje,
 };
 
-const deletedProductFromDBSuccessful = { insertId: 2 };
+const productsFromService = {
+  status: 'SUCCESSFUL',
+  data: productsFromModel,
+};
 
-const deletedProductFromServiceSuccessful = {
-  id: 2,
-  name: 'Traje de encolhimento',
+const productFromService = {
+  status: 'SUCCESSFUL',
+  data: productFromModel,
+};
+
+const productNotFoundMessage = {
+  message: 'Product not found',
+};
+
+const notFoundProductFromService = {
+  status: 'NOT_FOUND',
+  data: productNotFoundMessage,
+};
+
+const insertedProductFromService = {
+  status: 'CREATED',
+  data: updatedProductFromModel,
 };
 
 module.exports = {
@@ -126,24 +56,12 @@ module.exports = {
   productsFromModel,
   productFromDB,
   productFromModel,
-  notExistentProductMessageFromDB,
-  notExistentProductMessageFromModel,
-  productsFromServiceSuccessful,
-  productFromServiceSuccessful,
-  productFromServiceUnsuccessful,
-  newProductFromDBSuccessful,
-  newProductFromServiceSuccessful,
-  createdProductFromDBSuccessful,
-  createdProductFromServiceSuccessful,
-  schemaNameMinCharMessage,
-  schemaNameRequiredMessage,
-  createdProductFromServiceUnsuccessful,
-  newProductInsertIdFromDBSuccessful,
-  updatedProductFromDB,
-  updatedProductFromServiceSuccessful,
-  updatedProductSuccessfulFromModel,
+  insertedProductFromModel,
+  updatedProductFromModel,
   toUpdateProductFromModel,
-  updatedProductSuccessfulFromService,
-  deletedProductFromDBSuccessful,
-  deletedProductFromServiceSuccessful,
+  productsFromService,
+  productFromService,
+  productNotFoundMessage,
+  notFoundProductFromService,
+  insertedProductFromService,
 };

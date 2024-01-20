@@ -20,7 +20,7 @@ const salesFromDB = [
     quantity: 15,
   },
 ];
-  
+
 const salesFromModel = [
   {
     saleId: 1,
@@ -54,7 +54,7 @@ const saleFromDB = [
     quantity: 10,
   },
 ];
-  
+
 const saleFromModel = [
   {
     date: 'theDate',
@@ -68,27 +68,23 @@ const saleFromModel = [
   },
 ];
 
-const notExistentProductMessageFromDB = {
-  message: 'Sale not found',
-};
-  
-const notExistentSaleMessageFromModel = {
-  message: 'Sale not found',
-};
-
-const salesFromServiceSuccessful = {
+const salesFromService = {
   status: 'SUCCESSFUL',
   data: salesFromModel,
 };
 
-const saleFromServiceSuccessful = {
+const saleFromService = {
   status: 'SUCCESSFUL',
   data: saleFromModel,
 };
 
-const saleFromServiceUnsuccessful = {
+const saleNotFoundMessage = {
+  message: 'Sale not found',
+};
+
+const saleNoFoundFromService = {
   status: 'NOT_FOUND',
-  data: notExistentSaleMessageFromModel,
+  data: saleNotFoundMessage,
 };
 
 module.exports = {
@@ -96,9 +92,8 @@ module.exports = {
   salesFromModel,
   saleFromDB,
   saleFromModel,
-  notExistentProductMessageFromDB,
-  notExistentSaleMessageFromModel,
-  salesFromServiceSuccessful,
-  saleFromServiceSuccessful,
-  saleFromServiceUnsuccessful,
+  salesFromService,
+  saleFromService,
+  saleNotFoundMessage,
+  saleNoFoundFromService,
 };

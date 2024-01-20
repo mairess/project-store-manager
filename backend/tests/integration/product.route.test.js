@@ -3,7 +3,12 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const chaiHttp = require('chai-http');
 const connection = require('../../src/models/connection');
-const { productsFromModel, productsFromDB, productFromDB, productFromModel, schemaNameMinCharMessage } = require('../unit/mocks/product.mock');
+const { 
+  productsFromModel,
+  productsFromDB,
+  productFromDB,
+  productFromModel,
+} = require('../unit/mocks/product.mock.js');
 const app = require('../../src/app');
 
 const { expect } = chai;
@@ -39,6 +44,6 @@ describe('Integration testing - PRODUCT ROUTE:', function () {
     const response = await chai.request(app).post('/products');
 
     expect(response.status).to.be.equal(400);
-    expect(response.body).to.be.deep.equal(schemaNameMinCharMessage);
+    expect(response.body).to.be.deep.equal({ message: '"name" is required' });
   });
 });

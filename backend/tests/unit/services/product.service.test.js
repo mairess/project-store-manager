@@ -1,20 +1,15 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const { productService } = require('../../../src/services');
+const { productModel } = require('../../../src/models');
 const { 
   productsFromDB,
   productsFromModel,
   productFromDB,
   productFromModel,
-  notExistentProductMessageFromModel,
   createdProductFromDBSuccessful,
   createdProductFromServiceSuccessful,
-  schemaNameRequiredMessage,
-  updatedProductSuccessfulFromModel,
-  toUpdateProductFromModel,
-  updatedProductSuccessfulFromService,
-} = require('../mocks/product.mock');
-const { productModel } = require('../../../src/models');
+} = require('../mocks/product.mock.js');
 
 describe('Testing - PRODUCT SERVICE', function () {
   it('Returns a successful HTTP status and the corresponding product data.', async function () {
@@ -47,7 +42,7 @@ describe('Testing - PRODUCT SERVICE', function () {
     const serviceResponse = await productService.findById(inputData);
 
     expect(serviceResponse.status).to.equal('NOT_FOUND');
-    expect(serviceResponse.data).to.be.deep.equal(notExistentProductMessageFromModel);
+    expect(serviceResponse.data).to.be.deep.equal({ message: 'Product not found' });
   });
 
   it('Creates new product and returns successful HTTP status and created product.', async function () {
@@ -67,19 +62,24 @@ describe('Testing - PRODUCT SERVICE', function () {
     const serviceResponse = await productService.insertNew(inputData);
 
     expect(serviceResponse.status).to.equal('INVALID_VALUE');
-    expect(serviceResponse.data).to.be.deep.equal(schemaNameRequiredMessage);
+    expect(serviceResponse.data).to.be.deep.equal({
+      message: '"name" length must be at least 5 characters long',
+    });
   });
 
   it('Update a product - SERVICE.', async function () {
-    sinon.stub(productModel, 'update').resolves(updatedProductSuccessfulFromModel);
-    sinon.stub(productModel, 'findById').resolves(toUpdateProductFromModel);
+    sinon.stub(productModel, 'update').resolves({ id: 2, name: 'Capa do Batman' });
+    sinon.stub(productModel, 'findById').resolves({ id: 2, name: 'Traje de encolhimento' });
     
     const inputName = 'Capa do Batman';
     const inputId = 2;
     const serviceResponse = await productService.update(inputId, inputName);
 
     expect(serviceResponse.status).to.equal('SUCCESSFUL');
-    expect(serviceResponse.data).to.be.deep.equal(updatedProductSuccessfulFromService);
+    expect(serviceResponse.data).to.be.deep.equal({
+      id: 2,
+      name: 'Capa do Batman',
+    });
   });
 
   it('Does not update product that not exists - SERVICE.', async function () {
