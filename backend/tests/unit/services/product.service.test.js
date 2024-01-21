@@ -12,6 +12,10 @@ const {
 } = require('../mocks/product.mock');
 
 describe('Testing - PRODUCT SERVICE', function () {
+  afterEach(function () {
+    sinon.restore();
+  });
+  
   it('Returns a successful HTTP status and the corresponding product data.', async function () {
     sinon.stub(productModel, 'findAll').resolves(productsFromDB);
     
@@ -19,10 +23,6 @@ describe('Testing - PRODUCT SERVICE', function () {
 
     expect(serviceResponse.status).to.equal('SUCCESSFUL');
     expect(serviceResponse.data).to.deep.equal(productsFromModel);
-  });
-
-  afterEach(function () {
-    sinon.restore();
   });
 
   it('Returns a successful HTTP status and a specified product data.', async function () {
