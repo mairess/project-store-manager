@@ -44,12 +44,12 @@ const salesFromModel = [
 
 const saleFromDB = [
   {
-    date: 'theDate',
+    date: theDate,
     productId: 1,
     quantity: 5,
   },
   {
-    date: 'theDate',
+    date: theDate,
     productId: 2,
     quantity: 10,
   },
@@ -57,12 +57,12 @@ const saleFromDB = [
 
 const saleFromModel = [
   {
-    date: 'theDate',
+    date: theDate,
     productId: 1,
     quantity: 5,
   },
   {
-    date: 'theDate',
+    date: theDate,
     productId: 2,
     quantity: 10,
   },
@@ -87,6 +87,16 @@ const saleNoFoundFromService = {
   data: saleNotFoundMessage,
 };
 
+const insertedSaleFromModel = {
+  id: 5,
+  itemsSold: [{ productId: 1, quantity: 1 }, { productId: 2, quantity: 5 }],
+};
+
+const insertedSaleFromService = {
+  status: 'CREATED',
+  data: insertedSaleFromModel,
+};
+
 module.exports = {
   salesFromDB,
   salesFromModel,
@@ -96,4 +106,6 @@ module.exports = {
   saleFromService,
   saleNotFoundMessage,
   saleNoFoundFromService,
+  insertedSaleFromService,
+  insertedSaleFromModel,
 };

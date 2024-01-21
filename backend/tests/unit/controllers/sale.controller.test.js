@@ -11,6 +11,8 @@ const {
   saleFromModel,
   saleNotFoundMessage,
   saleNoFoundFromService,
+  insertedSaleFromService,
+  insertedSaleFromModel,
 } = require('../mocks/sale.mock');
 
 chai.use(sinonChai);
@@ -47,7 +49,7 @@ describe('Testing - SALE CONTROLLER', function () {
     };
     const res = {
       status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
+      json: sinon.stub().withArgs(saleFromModel),
     };
     
     await saleController.findById(req, res);
@@ -65,12 +67,39 @@ describe('Testing - SALE CONTROLLER', function () {
     };
     const res = {
       status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
+      json: sinon.stub().withArgs(saleNotFoundMessage),
     };
     
     await saleController.findById(req, res);
 
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith(saleNotFoundMessage);
+  });
+
+  it('Inserts a new sale.', async function () {
+    sinon.stub(saleService, 'insertNew').resolves(insertedSaleFromService);
+
+    const req = {
+      params: { },
+      body: [
+        {
+          productId: 1,
+          quantity: 1,
+        },
+        {
+          productId: 2,
+          quantity: 5,
+        },
+      ],
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    
+    await saleController.insertNew(req, res);
+
+    expect(res.status).to.have.been.calledWith(201);
+    expect(res.json.getCall(0).args[0]).to.deep.equal(insertedSaleFromModel);
   });
 });
