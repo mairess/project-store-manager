@@ -82,7 +82,7 @@ describe('Testing - PRODUCT SERVICE', function () {
     });
   });
 
-  it('Does not update product that not exists - SERVICE.', async function () {
+  it('Does not update a product not found.', async function () {
     sinon.stub(productModel, 'update').resolves(undefined);
     sinon.stub(productModel, 'findById').resolves(undefined);
     
