@@ -104,4 +104,15 @@ describe('Testing - PRODUCT SERVICE', function () {
     expect(serviceResponse.status).to.equal('NO_CONTENT');
     expect(serviceResponse.data).to.be.deep.equal(null);
   });
+
+  it('Does not delete a product not found.', async function () {
+    sinon.stub(productModel, 'remove').resolves(undefined);
+    sinon.stub(productModel, 'findById').resolves(undefined);
+    
+    const inputId = 99999;
+    const serviceResponse = await productService.remove(inputId);
+
+    expect(serviceResponse.status).to.equal('NOT_FOUND');
+    expect(serviceResponse.data).to.be.deep.equal({ message: 'Product not found' });
+  });
 });
