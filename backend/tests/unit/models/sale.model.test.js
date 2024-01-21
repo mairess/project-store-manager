@@ -42,4 +42,25 @@ describe('Testing - SALE MODEL', function () {
     expect(saleNotFoundMessage).to.be.an('array');
     expect(saleNotFoundMessage).to.be.deep.equal([]);
   });
+
+  it('Inserts a new sale.', async function () {
+    sinon.stub(connection, 'execute')
+      .onFirstCall()
+      .resolves([{ insertId: 26 }])
+      .onSecondCall()
+      .resolves([]);
+
+    const inputData = [
+      { productId: 1, quantity: 1 },
+      { productId: 2, quantity: 5 },
+    ];
+
+    const insertedSale = await saleModel.insertNew(inputData);
+
+    expect(insertedSale).to.be.an('object');
+    expect(insertedSale).to.be.deep.equal({
+      id: 26,
+      itemsSold: inputData,
+    });
+  });
 });
