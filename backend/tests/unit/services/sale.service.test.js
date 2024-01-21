@@ -64,7 +64,7 @@ describe('Testing - SALES SERVICE', function () {
     expect(serviceResponse.data).to.be.deep.equal(expectedData);
   });
 
-  it('Does not insert a sale in with product not found.', async function () {
+  it('Does not insert a sale in with product is not found.', async function () {
     sinon.stub(saleModel, 'insertNew').resolves();
     sinon.stub(saleModel, 'findById').resolves();
     
