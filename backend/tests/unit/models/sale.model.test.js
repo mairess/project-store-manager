@@ -56,6 +56,9 @@ describe('Testing - SALE MODEL', function () {
     ];
 
     const insertedSale = await saleModel.insertNew(inputData);
+    
+    expect(connection.execute.secondCall.args[1]).to.deep.equal([26, 1, 1]);
+    expect(connection.execute.thirdCall.args[1]).to.deep.equal([26, 2, 5]);
 
     expect(insertedSale).to.be.an('object');
     expect(insertedSale).to.be.deep.equal({
