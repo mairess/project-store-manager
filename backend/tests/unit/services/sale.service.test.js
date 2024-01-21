@@ -77,4 +77,32 @@ describe('Testing - SALES SERVICE', function () {
     expect(serviceResponse.status).to.equal('NOT_FOUND');
     expect(serviceResponse.data).to.be.deep.equal({ message: 'Product not found' });
   });
+
+  it('Does not insert a sale missing property "productId".', async function () {
+    sinon.stub(saleModel, 'insertNew').resolves();
+    sinon.stub(saleModel, 'findById').resolves();
+    
+    const inputData = [
+      { missingId: 1, quantity: 11 },
+      { missingId: 2, quantity: 5 },
+    ];
+    const serviceResponse = await saleService.insertNew(inputData);
+
+    expect(serviceResponse.status).to.equal('BAD_REQUEST');
+    expect(serviceResponse.data).to.be.deep.equal({ message: '"productId" is required' });
+  });
+
+  it('Does not insert a sale missing property "quantity".', async function () {
+    sinon.stub(saleModel, 'insertNew').resolves();
+    sinon.stub(saleModel, 'findById').resolves();
+    
+    const inputData = [
+      { productId: 1, age: 11 },
+      { productId: 2, age: 5 },
+    ];
+    const serviceResponse = await saleService.insertNew(inputData);
+
+    expect(serviceResponse.status).to.equal('BAD_REQUEST');
+    expect(serviceResponse.data).to.be.deep.equal({ message: '"quantity" is required' });
+  });
 });

@@ -116,7 +116,7 @@ describe('Testing - PRODUCT CONTROLLER', function () {
     expect(res.json).to.have.been.calledWith(updatedProductFromModel);
   });
 
-  it('Does not update product missing key "name".', async function () {
+  it('Does not update product missing property "name".', async function () {
     sinon.stub(productService, 'update').resolves(undefined);
     sinon.stub(productService, 'findById').resolves(undefined);
 

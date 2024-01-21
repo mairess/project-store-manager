@@ -46,7 +46,7 @@ describe('Integration testing - PRODUCT ROUTE:', function () {
     expect(response.body).to.be.deep.equal({ message: '"name" is required' });
   });
 
-  it('Does not update a product missing key "name".', async function () {
+  it('Does not update a product missing property "name".', async function () {
     sinon.stub(connection, 'execute').resolves(undefined);
 
     const response = await chai.request(app).put('/products/1').send({
