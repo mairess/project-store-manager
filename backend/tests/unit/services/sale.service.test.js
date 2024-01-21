@@ -105,4 +105,19 @@ describe('Testing - SALES SERVICE', function () {
     expect(serviceResponse.status).to.equal('BAD_REQUEST');
     expect(serviceResponse.data).to.be.deep.equal({ message: '"quantity" is required' });
   });
+
+  it('Does not insert a sale with "quantity" property equal 0.', async function () {
+    sinon.stub(saleModel, 'insertNew').resolves(undefined);
+    
+    const inputData = [
+      { productId: 1, quantity: 0 },
+      { productId: 2, quantity: 0 },
+    ];
+    const serviceResponse = await saleService.insertNew(inputData);
+
+    expect(serviceResponse.status).to.equal('INVALID_VALUE');
+    expect(serviceResponse.data).to.be.deep.equal({
+      message: '"quantity" must be greater than or equal to 1',
+    });
+  });
 });
