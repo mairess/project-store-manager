@@ -16,7 +16,7 @@ describe('Testing - PRODUCT SERVICE', function () {
     sinon.restore();
   });
   
-  it('Returns a successful HTTP status and the corresponding product data.', async function () {
+  it('Returns all products available.', async function () {
     sinon.stub(productModel, 'findAll').resolves(productsFromDB);
     
     const serviceResponse = await productService.findAll();
@@ -25,7 +25,7 @@ describe('Testing - PRODUCT SERVICE', function () {
     expect(serviceResponse.data).to.deep.equal(productsFromModel);
   });
 
-  it('Returns a successful HTTP status and a specified product data.', async function () {
+  it('Returns a product specified by id.', async function () {
     sinon.stub(productModel, 'findById').resolves(productFromDB);
     
     const inputData = 3;
@@ -35,7 +35,7 @@ describe('Testing - PRODUCT SERVICE', function () {
     expect(serviceResponse.data).to.be.deep.equal(productFromModel);
   });
 
-  it('Returns an unsuccessful HTTP status and a specified message.', async function () {
+  it('Does not return a product passing inexistent id.', async function () {
     sinon.stub(productModel, 'findById').resolves(undefined);
     
     const inputData = 9929999;
@@ -45,7 +45,7 @@ describe('Testing - PRODUCT SERVICE', function () {
     expect(serviceResponse.data).to.be.deep.equal({ message: 'Product not found' });
   });
 
-  it('Creates new product and returns successful HTTP status and created product.', async function () {
+  it('Inserts a product.', async function () {
     sinon.stub(productModel, 'insertNew').resolves(createdProductFromDBSuccessful);
     
     const inputData = 'Produto do bom';
@@ -55,7 +55,7 @@ describe('Testing - PRODUCT SERVICE', function () {
     expect(serviceResponse.data).to.be.deep.equal(createdProductFromServiceSuccessful);
   });
 
-  it('Does not create new product with name lass than 5 characters.', async function () {
+  it('Does not insert a product with "name" property lass than 5 characters.', async function () {
     sinon.stub(productModel, 'insertNew').resolves(undefined);
     
     const inputData = 'aaa';
@@ -67,7 +67,7 @@ describe('Testing - PRODUCT SERVICE', function () {
     });
   });
 
-  it('Updates a product - SERVICE.', async function () {
+  it('Updates a product.', async function () {
     sinon.stub(productModel, 'update').resolves({ id: 2, name: 'Capa do Batman' });
     sinon.stub(productModel, 'findById').resolves({ id: 2, name: 'Traje de encolhimento' });
     
