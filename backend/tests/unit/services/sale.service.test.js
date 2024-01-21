@@ -42,4 +42,39 @@ describe('Testing - SALES SERVICE', function () {
     expect(serviceResponse.status).to.equal('NOT_FOUND');
     expect(serviceResponse.data).to.be.deep.equal({ message: 'Sale not found' });
   });
+
+  it('Inserts a sale.', async function () {
+    const expectedData = {
+      id: 26,
+      itemsSold: [
+        { productId: 1, quantity: 1 },
+        { productId: 2, quantity: 5 },
+      ],
+    };
+    sinon.stub(saleModel, 'insertNew').resolves(expectedData);
+    sinon.stub(saleModel, 'findById').resolves([{ }]);
+    
+    const inputData = [
+      { productId: 1, quantity: 1 },
+      { productId: 2, quantity: 5 },
+    ];
+    const serviceResponse = await saleService.insertNew(inputData);
+
+    expect(serviceResponse.status).to.equal('CREATED');
+    expect(serviceResponse.data).to.be.deep.equal(expectedData);
+  });
+
+  it('Does not insert a sale in with product not found.', async function () {
+    sinon.stub(saleModel, 'insertNew').resolves();
+    sinon.stub(saleModel, 'findById').resolves();
+    
+    const inputData = [
+      { productId: 199, quantity: 11012 },
+      { productId: 2, quantity: 5 },
+    ];
+    const serviceResponse = await saleService.insertNew(inputData);
+
+    expect(serviceResponse.status).to.equal('NOT_FOUND');
+    expect(serviceResponse.data).to.be.deep.equal({ message: 'Product not found' });
+  });
 });
