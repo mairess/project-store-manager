@@ -193,4 +193,23 @@ describe('Testing - PRODUCT CONTROLLER', function () {
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
   });
+
+  it('Updates a product.', async function () {
+    sinon.stub(productService, 'update').resolves({ status: 'SUCCESSFUL', data: { id: 2, name: 'Capa do mano El Chapulín Colorad' } });
+    sinon.stub(productService, 'findById').resolves({ status: 'SUCCESSFUL', data: { id: 2, name: 'Traje de encolhimento' } });
+
+    const req = {
+      params: { id: 2 },
+      body: { name: 'Capa do mano El Chapulín Colorado' },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    
+    await productController.update(req, res);
+
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith({ id: 2, name: 'Capa do mano El Chapulín Colorad' });
+  });
 });

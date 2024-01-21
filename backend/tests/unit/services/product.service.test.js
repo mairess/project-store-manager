@@ -67,7 +67,7 @@ describe('Testing - PRODUCT SERVICE', function () {
     });
   });
 
-  it('Update a product - SERVICE.', async function () {
+  it('Updates a product - SERVICE.', async function () {
     sinon.stub(productModel, 'update').resolves({ id: 2, name: 'Capa do Batman' });
     sinon.stub(productModel, 'findById').resolves({ id: 2, name: 'Traje de encolhimento' });
     
