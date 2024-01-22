@@ -120,4 +120,37 @@ describe('Testing - SALE CONTROLLER', function () {
     expect(res.status).to.have.been.calledWith(204);
     expect(res.json).to.have.been.calledWith(null);
   });
+
+  it('Updates product quantity of a sale.', async function () {
+    sinon.stub(saleService, 'updateProductQuantity').resolves({ status: 'SUCCESSFUL',
+      data: {
+        date: '2024-01-22T14:42:51.380Z',
+        productId: 1,
+        quantity: 100,
+        saleId: 2,
+      },
+    });
+
+    const req = {
+      params: { 
+        saleId: 2,
+        productId: 2,
+      },
+      body: { quantity: 100 },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    
+    await saleController.updateProductQuantity(req, res);
+
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith({
+      date: '2024-01-22T14:42:51.380Z',
+      productId: 1,
+      quantity: 100,
+      saleId: 2,
+    });
+  });
 });
