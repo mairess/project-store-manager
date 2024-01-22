@@ -57,9 +57,9 @@ const updateProductQuantity = async (saleId, productId, quantity) => {
     UPDATE sales_products SET quantity = ? WHERE product_id = ?
     `, [quantity, productId]);  
   return {
-    date: new Date(),
+    date: new Date().toISOString(),
     productId: Number(productId),
-    quantity,
+    quantity: Number(quantity),
     saleId: Number(saleId),
   };
 };

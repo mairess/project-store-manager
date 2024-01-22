@@ -66,4 +66,24 @@ describe('Testing - SALE MODEL', function () {
       itemsSold: inputData,
     });
   });
+
+  it('Updates product quantity of a sale.', async function () {
+    const mockedDate = new Date('2024-01-22T12:56:58.564Z');
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+    sinon.useFakeTimers(mockedDate);
+
+    const saleId = 1; 
+    const productId = 1; 
+    const quantity = 20;
+
+    const updatedQuantity = await saleModel.updateProductQuantity(saleId, productId, quantity);
+    
+    expect(updatedQuantity).to.be.an('object');
+    expect(updatedQuantity).to.be.deep.equal({
+      date: '2024-01-22T12:56:58.564Z',
+      productId: 1,
+      quantity: 20,
+      saleId: 1,
+    });
+  });
 });
