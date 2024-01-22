@@ -40,7 +40,6 @@ const remove = async (productId) => {
 
 const search = async (q) => {
   const results = await productModel.search(q);
-  console.log(results);
   return { status: 'SUCCESSFUL', data: results };
 };
 

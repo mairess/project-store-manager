@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+const chai = require('chai');
 const sinon = require('sinon');
 const { saleService } = require('../../../src/services');
 const { 
@@ -8,6 +8,8 @@ const {
   saleFromModel,
 } = require('../mocks/sale.mock');
 const { saleModel } = require('../../../src/models');
+
+const { expect } = chai;
 
 describe('Testing - SALES SERVICE', function () {
   afterEach(function () {
@@ -119,5 +121,16 @@ describe('Testing - SALES SERVICE', function () {
     expect(serviceResponse.data).to.be.deep.equal({
       message: '"quantity" must be greater than or equal to 1',
     });
+  });
+
+  it('Deletes a sale.', async function () {
+    sinon.stub(saleModel, 'remove').resolves(undefined);
+    sinon.stub(saleModel, 'findById').resolves([{}]);
+    
+    const inputData = 2;
+    const serviceResponse = await saleService.remove(inputData);
+
+    expect(serviceResponse.status).to.equal('NO_CONTENT');
+    expect(serviceResponse.data).to.equal(null);
   });
 });
