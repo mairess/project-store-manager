@@ -1,4 +1,4 @@
-const { saleModel } = require('../models');
+const { saleModel, productModel } = require('../models');
 const schema = require('./validations/validationsInputValues');
 
 const findAll = async () => {
@@ -47,9 +47,28 @@ const remove = async (saleId) => {
   return { status: 'NO_CONTENT', data: null };
 };
 
+const update = async (saleId, productId, quantity) => {
+  const errorSchema = schema.validateUpdateProductQuantity({ quantity });
+  if (errorSchema) return { status: errorSchema.status, data: { message: errorSchema.message } };
+
+  const saleExists = await saleModel.findById(saleId);
+  if (!saleExists.length) return { status: 'NOT_FOUND', data: { message: 'Sale not found' } };
+
+  const productExists = await productModel.findById(productId);
+  if (!productExists) {
+    return { 
+      status: 'NOT_FOUND', data: { message: 'Product not found in sale' },
+    }; 
+  }
+
+  const product = await saleModel.update(saleId, productId, quantity);
+  return { status: 'SUCCESSFUL', data: product };
+};
+
 module.exports = {
   findAll,
   findById,
   insertNew,
   remove,
+  update,
 };

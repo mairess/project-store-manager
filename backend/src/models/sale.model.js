@@ -51,6 +51,19 @@ const insertNew = async (salesProduct) => {
   };
 };
 
+const update = async (saleId, productId, quantity) => {
+  await connection
+    .execute(`
+    UPDATE sales_products SET quantity = ? WHERE product_id = ?
+    `, [quantity, productId]);  
+  return {
+    date: new Date(),
+    productId: Number(productId),
+    quantity,
+    saleId: Number(saleId),
+  };
+};
+
 const remove = async (saleId) => {
   await connection
     .execute(`
@@ -62,5 +75,6 @@ module.exports = {
   findAll,
   findById,
   insertNew,
+  update,
   remove,
 };
