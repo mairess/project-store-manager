@@ -79,4 +79,14 @@ describe('Testing - PRODUCT MODEL', function () {
     
     expect(connectionMocked.called).to.equal(true);
   });
+
+  it('Searches a product.', async function () {
+    sinon.stub(connection, 'execute').resolves([{ id: 1, name: 'Martelo de Thor' }]);
+
+    const inputId = 'Ma';
+    const results = await productModel.search(inputId);
+
+    expect(results).to.be.an('object');
+    expect(results).to.be.deep.equal({ id: 1, name: 'Martelo de Thor' });
+  });
 });

@@ -34,7 +34,6 @@ const search = async (q) => {
     .execute(`
     SELECT * FROM products WHERE name LIKE ?
     `, [`%${q}%`]);
-
   return result;
 };
   
