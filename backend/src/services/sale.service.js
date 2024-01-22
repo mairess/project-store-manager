@@ -47,7 +47,7 @@ const remove = async (saleId) => {
   return { status: 'NO_CONTENT', data: null };
 };
 
-const update = async (saleId, productId, quantity) => {
+const updateProductQuantity = async (saleId, productId, quantity) => {
   const errorSchema = schema.validateUpdateProductQuantity({ quantity });
   if (errorSchema) return { status: errorSchema.status, data: { message: errorSchema.message } };
 
@@ -61,7 +61,7 @@ const update = async (saleId, productId, quantity) => {
     }; 
   }
 
-  const product = await saleModel.update(saleId, productId, quantity);
+  const product = await saleModel.updateProductQuantity(saleId, productId, quantity);
   return { status: 'SUCCESSFUL', data: product };
 };
 
@@ -70,5 +70,5 @@ module.exports = {
   findById,
   insertNew,
   remove,
-  update,
+  updateProductQuantity,
 };

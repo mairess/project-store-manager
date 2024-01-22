@@ -24,10 +24,10 @@ const remove = async (req, res) => {
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
-const update = async (req, res) => {
+const updateProductQuantity = async (req, res) => {
   const { saleId, productId } = req.params;
   const { quantity } = req.body;
-  const { status, data } = await saleService.update(saleId, productId, quantity);
+  const { status, data } = await saleService.updateProductQuantity(saleId, productId, quantity);
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
@@ -36,5 +36,5 @@ module.exports = {
   findById,
   insertNew,
   remove,
-  update,
+  updateProductQuantity,
 };
