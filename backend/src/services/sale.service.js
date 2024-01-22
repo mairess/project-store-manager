@@ -40,8 +40,16 @@ const insertNew = async (salesProduct) => {
   return { status: 'CREATED', data: product };
 };
 
+const remove = async (saleId) => {
+  const saleExists = await saleModel.findById(saleId);
+  if (!saleExists.length) return { status: 'NOT_FOUND', data: { message: 'Sale not found' } };
+  await saleModel.remove(saleId);
+  return { status: 'NO_CONTENT', data: null };
+};
+
 module.exports = {
   findAll,
   findById,
   insertNew,
+  remove,
 };

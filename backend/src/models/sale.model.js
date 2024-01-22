@@ -50,9 +50,17 @@ const insertNew = async (salesProduct) => {
     itemsSold: salesProduct,
   };
 };
+
+const remove = async (saleId) => {
+  await connection
+    .execute(`
+    DELETE FROM sales WHERE id = ?
+    `, [saleId]);
+};
   
 module.exports = {
   findAll,
   findById,
   insertNew,
+  remove,
 };

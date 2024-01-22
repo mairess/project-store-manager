@@ -18,8 +18,15 @@ const insertNew = async (req, res) => {
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
+const remove = async (req, res) => {
+  const { id } = req.params;
+  const { status, data } = await saleService.remove(id);
+  return res.status(mapStatusHTTP(status)).json(data);
+};
+
 module.exports = {
   findAll,
   findById,
   insertNew,
+  remove,
 };
