@@ -1,13 +1,13 @@
 const chai = require('chai');
 const sinon = require('sinon');
 const { saleService } = require('../../../src/services');
+const { saleModel, productModel } = require('../../../src/models');
 const { 
   salesFromDB,
   salesFromModel,
   saleFromDB,
   saleFromModel,
 } = require('../mocks/sale.mock');
-const { saleModel } = require('../../../src/models');
 
 const { expect } = chai;
 
@@ -132,5 +132,31 @@ describe('Testing - SALES SERVICE', function () {
 
     expect(serviceResponse.status).to.equal('NO_CONTENT');
     expect(serviceResponse.data).to.equal(null);
+  });
+
+  it('Updates product quantity of a sale.', async function () {
+    const returnFromModel = {
+      date: '2024-01-22T14:00:46.370Z',
+      productId: 1,
+      quantity: 100,
+      saleId: 2,
+    };
+    sinon.stub(saleModel, 'updateProductQuantity').resolves(Promise.resolve(returnFromModel));
+    sinon.stub(saleModel, 'findById').resolves([{}]);
+    sinon.stub(productModel, 'findById').resolves([{}]);
+    
+    const saleId = 2;
+    const productId = 2;
+    const quantity = 200;
+
+    const serviceResponse = await saleService.updateProductQuantity(saleId, productId, quantity);
+
+    expect(serviceResponse.status).to.equal('SUCCESSFUL');
+    expect(serviceResponse.data).to.be.deep.equal({
+      date: '2024-01-22T14:00:46.370Z',
+      productId: 1,
+      quantity: 100,
+      saleId: 2,
+    });
   });
 });
