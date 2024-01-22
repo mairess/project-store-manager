@@ -102,4 +102,22 @@ describe('Testing - SALE CONTROLLER', function () {
     expect(res.status).to.have.been.calledWith(201);
     expect(res.json.getCall(0).args[0]).to.deep.equal(insertedSaleFromModel);
   });
+
+  it('Removes a sale.', async function () {
+    sinon.stub(saleService, 'remove').resolves({ status: 'NO_CONTENT', data: null });
+
+    const req = {
+      params: { id: 1 },
+      body: { },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    
+    await saleController.remove(req, res);
+
+    expect(res.status).to.have.been.calledWith(204);
+    expect(res.json).to.have.been.calledWith(null);
+  });
 });
