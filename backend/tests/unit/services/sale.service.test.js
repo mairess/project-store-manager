@@ -152,7 +152,7 @@ describe('Testing - SALES SERVICE', function () {
       quantity: 100,
       saleId: 2,
     };
-    sinon.stub(saleModel, 'updateProductQuantity').resolves(Promise.resolve(returnFromModel));
+    sinon.stub(saleModel, 'updateProductQuantity').resolves(returnFromModel);
     sinon.stub(saleModel, 'findById').resolves([{}]);
     sinon.stub(productModel, 'findById').resolves([{}]);
     
@@ -169,5 +169,20 @@ describe('Testing - SALES SERVICE', function () {
       quantity: 100,
       saleId: 2,
     });
+  });
+
+  it('Does not update product quantity of a product not found.', async function () {
+    sinon.stub(saleModel, 'updateProductQuantity').resolves(null);
+    sinon.stub(productModel, 'findById').resolves(undefined);
+    sinon.stub(saleModel, 'findById').resolves([{}]);
+    
+    const saleId = 2;
+    const productId = 999999;
+    const quantity = 200;
+
+    const serviceResponse = await saleService.updateProductQuantity(saleId, productId, quantity);
+
+    expect(serviceResponse.status).to.equal('NOT_FOUND');
+    expect(serviceResponse.data).to.be.deep.equal({ message: 'Product not found in sale' });
   });
 });
