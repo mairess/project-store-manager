@@ -115,4 +115,13 @@ describe('Testing - PRODUCT SERVICE', function () {
     expect(serviceResponse.status).to.equal('NOT_FOUND');
     expect(serviceResponse.data).to.be.deep.equal({ message: 'Product not found' });
   });
+  it('Searches a product.', async function () {
+    sinon.stub(productModel, 'search').resolves({ id: 1, name: 'Martelo de Thor' });
+    
+    const inputId = 'Ma';
+    const serviceResponse = await productService.search(inputId);
+
+    expect(serviceResponse.status).to.equal('SUCCESSFUL');
+    expect(serviceResponse.data).to.be.deep.equal({ id: 1, name: 'Martelo de Thor' });
+  });
 });

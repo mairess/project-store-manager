@@ -65,11 +65,10 @@ const updateProductQuantity = async (saleId, productId, quantity) => {
 };
 
 const remove = async (saleId) => {
-  const result = await connection
+  await connection
     .execute(`
     DELETE FROM sales WHERE id = ?
     `, [saleId]);
-  console.log(result);
 };
   
 module.exports = {
