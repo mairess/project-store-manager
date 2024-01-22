@@ -52,7 +52,7 @@ const updateProductQuantity = async (saleId, productId, quantity) => {
   if (errorSchema) return { status: errorSchema.status, data: { message: errorSchema.message } };
 
   const saleExists = await saleModel.findById(saleId);
-  if (!saleExists.length) return { status: 'NOT_FOUND', data: { message: 'Sale not found' } };
+  if (!saleExists) return { status: 'NOT_FOUND', data: { message: 'Sale not found' } };
 
   const productExists = await productModel.findById(productId);
   if (!productExists) {
