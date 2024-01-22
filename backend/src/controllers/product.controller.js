@@ -31,10 +31,17 @@ const remove = async (req, res) => {
   return res.status(mapStatusHTTP(status)).json(data);
 };
 
+const search = async (req, res) => {
+  const { q } = req.query;
+  const { status, data } = await productService.search(q);
+  return res.status(mapStatusHTTP(status)).json(data);
+};
+
 module.exports = {
   findAll,
   findById,
   insertNew,
   update,
   remove,
+  search,
 };

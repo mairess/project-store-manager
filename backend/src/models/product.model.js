@@ -28,6 +28,15 @@ const remove = async (productId) => {
     DELETE FROM products WHERE id = ?
     `, [productId]);
 };
+
+const search = async (q) => {
+  const [result] = await connection
+    .execute(`
+    SELECT * FROM products WHERE name LIKE ?
+    `, [`%${q}%`]);
+
+  return result;
+};
   
 module.exports = {
   findAll,
@@ -35,4 +44,5 @@ module.exports = {
   insertNew,
   update,
   remove,
+  search,
 };

@@ -38,10 +38,16 @@ const remove = async (productId) => {
   return { status: 'NO_CONTENT', data: null };
 };
 
+const search = async (q) => {
+  const results = await productModel.search(q);
+  return { status: 'SUCCESSFUL', data: results };
+};
+
 module.exports = {
   findAll,
   findById,
   insertNew,
   update,
   remove,
+  search,
 };
