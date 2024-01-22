@@ -7,7 +7,6 @@ const findAll = async () => {
 
 const findById = async (productId) => {
   const [[product]] = await connection.execute('SELECT * FROM products WHERE id = ?', [productId]); 
-  console.log(product);
   return product;
 };
 
