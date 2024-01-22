@@ -195,12 +195,12 @@ describe('Testing - PRODUCT CONTROLLER', function () {
   });
 
   it('Updates a product.', async function () {
-    sinon.stub(productService, 'update').resolves({ status: 'SUCCESSFUL', data: { id: 2, name: 'Capa do mano El Chapulín Colorad' } });
+    sinon.stub(productService, 'update').resolves({ status: 'SUCCESSFUL', data: { id: 2, name: 'Capa do mano El Chapulín Colorado' } });
     sinon.stub(productService, 'findById').resolves({ status: 'SUCCESSFUL', data: { id: 2, name: 'Traje de encolhimento' } });
 
     const req = {
       params: { id: 2 },
-      body: { name: 'Capa do mano El Chapulín Colorado' },
+      body: { name: 'Capa do mano El Chapulín Coloradoo' },
     };
     const res = {
       status: sinon.stub().returnsThis(),
@@ -210,6 +210,24 @@ describe('Testing - PRODUCT CONTROLLER', function () {
     await productController.update(req, res);
 
     expect(res.status).to.have.been.calledWith(200);
-    expect(res.json).to.have.been.calledWith({ id: 2, name: 'Capa do mano El Chapulín Colorad' });
+    expect(res.json).to.have.been.calledWith({ id: 2, name: 'Capa do mano El Chapulín Colorado' });
+  });
+
+  it('Searches for a product.', async function () {
+    sinon.stub(productService, 'search').resolves({ status: 'SUCCESSFUL', data: [{ id: 1, name: 'Martelo de Thor' }] });
+
+    const req = {
+      query: { q: 'Ma' },
+      body: { },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    
+    await productController.search(req, res);
+
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith([{ id: 1, name: 'Martelo de Thor' }]);
   });
 });

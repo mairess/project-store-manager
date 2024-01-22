@@ -78,7 +78,7 @@ describe('Testing - PRODUCT MODEL', function () {
     expect(connectionMocked.called).to.equal(true);
   });
 
-  it('Searches a product.', async function () {
+  it('Searches for a product.', async function () {
     sinon.stub(connection, 'execute').resolves([{ id: 1, name: 'Martelo de Thor' }]);
 
     const inputId = 'Ma';
