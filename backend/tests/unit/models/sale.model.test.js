@@ -86,4 +86,13 @@ describe('Testing - SALE MODEL', function () {
       saleId: 1,
     });
   });
+
+  it('Removes a sale.', async function () {
+    const connectionMocked = sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+    
+    const inputId = 2;
+    await saleModel.remove(inputId);
+
+    expect(connectionMocked.called).to.equal(true);
+  });
 });

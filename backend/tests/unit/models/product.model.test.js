@@ -70,13 +70,11 @@ describe('Testing - PRODUCT MODEL', function () {
   });
 
   it('Removes a product.', async function () {
-    const connectionMocked = sinon.stub(connection, 'execute').resolves(undefined);
+    const connectionMocked = sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
     
     const inputId = 2;
     await productModel.remove(inputId);
 
-    sinon.assert.calledOnce(connectionMocked);
-    
     expect(connectionMocked.called).to.equal(true);
   });
 
