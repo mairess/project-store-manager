@@ -134,6 +134,17 @@ describe('Testing - SALES SERVICE', function () {
     expect(serviceResponse.data).to.equal(null);
   });
 
+  it('Des not delete sale not found.', async function () {
+    sinon.stub(saleModel, 'remove').resolves(undefined);
+    sinon.stub(saleModel, 'findById').resolves([]);
+    
+    const inputData = 291919;
+    const serviceResponse = await saleService.remove(inputData);
+
+    expect(serviceResponse.status).to.equal('NOT_FOUND');
+    expect(serviceResponse.data).to.be.deep.equal({ message: 'Sale not found' });
+  });
+
   it('Updates product quantity of a sale.', async function () {
     const returnFromModel = {
       date: '2024-01-22T14:00:46.370Z',
