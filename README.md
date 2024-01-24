@@ -1,10 +1,14 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# <p align="center">Projeto Store Manager</p>
+
+## Contexto
+
+Este projeto consiste em uma `API completamente RESTful` para gerenciamento de vendas, utilizando `Node.js` com `Express` seguindo a `arquitetura em camadas`. Nela é possível criar, visualizar, deletar e atualizar produtos e vendas. Além disso, a aplicação possui uma boa cobertura de teste, utilizando `mocha`, `chai` e `sinon`.
+
+### Cobertura de teste:
+![Alt text](image.png)
+
+## Competências desenvolvidas
+
+- Habilidade para implementar API utilizando arquitetura em camadas.
+- Habilidade para teste unitário.
+- Habilidade para teste de integração
