@@ -2,7 +2,7 @@
 
 ## Contexto
 
-Este projeto consiste em uma `API completamente RESTful` para gerenciamento de vendas, utilizando `Node.js` com `Express` seguindo a `arquitetura em camadas`. Nela é possível criar, visualizar, deletar e atualizar produtos e vendas. Além disso, a aplicação possui uma boa cobertura de teste, utilizando `mocha`, `chai` e `sinon`.
+Este projeto consiste em uma `API completamente RESTful` para gerenciamento de vendas, utilizando `Node.js` com `Express` seguindo a `arquitetura em camadas` MSC. Nela é possível criar, visualizar, deletar e atualizar produtos e vendas. Além disso, a aplicação possui uma boa cobertura de teste, utilizando `mocha`, `chai` e `sinon`.
 
 ### Cobertura de teste:
 ![Alt text](image.png)
