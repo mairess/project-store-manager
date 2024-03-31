@@ -1,0 +1,208 @@
+openapi: 3.0.0
+info:
+  title: Store Manager API
+  description: API for managing products and sales
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001
+  - url: http://localhost:7000
+paths:
+  /products:
+    get:
+      tags:
+        - Products
+      summary: Get all products
+      description: Retrieves a list of all products.
+      responses:
+        '200':
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductList'
+    post:
+      tags:
+        - Products
+      summary: Create a new product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreateRequest'
+            example:
+              name: "Machado de Xango"
+      responses:
+        '200':
+          $ref: '#/components/responses/ProductCreated'
+        '400':
+          $ref: '#/components/responses/BadRequestCreateProduct'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /products/{id}:
+    get:
+      tags:
+        - Products
+      summary: Get a product by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the product to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/ProductRetrieved'
+        '404':
+          $ref: '#/components/responses/ProductNotFound'
+    put:
+      tags:
+        - Products
+      summary: Update a product by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the product to update
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductUpdateRequest'
+            example:
+              name: "Machado de Assis"
+        description: Example of a product update request body
+      responses:
+        '200':
+          $ref: '#/components/responses/ProductUpdated'
+        '400':
+          $ref: '#/components/responses/BadRequestCreateProduct'
+        '404':
+          $ref: '#/components/responses/ProductNotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      tags:
+        - Products
+      summary: Delete a product by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the product to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          $ref: '#/components/responses/ProductDeleted'
+        '404':
+          $ref: '#/components/responses/ProductNotFound'
+components:
+  schemas:
+    ProductList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Product'
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the product
+        name:
+          type: string
+          description: The name of the product
+      required:
+        - id
+        - name
+    ProductCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the product
+      required:
+        - name
+    ProductUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The updated name of the product
+      required:
+        - name
+  responses:
+    ProductNotFound:
+      description: Product not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            productNotFound:
+              value:
+                message: "Product not found"
+    BadRequest:
+      description: Bad request, invalid data provided
+    ProductCreated:
+      description: Successfully created a new product
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
+          example:
+            id: 3
+            name: "Machado de Xango"
+    ProductRetrieved:
+      description: Successfully retrieved the product
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
+          example:
+            id: 1
+            name: "Martelo de Thor"
+    ProductUpdated:
+      description: Successfully updated the product
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
+          example:
+            id: 3
+            name: "Machado de Assis"
+    ProductDeleted:
+      description: Product successfully deleted
+    BadRequestCreateProduct:
+      description: Bad request, invalid data provided
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            missingName:
+              value:
+                message: "\"name\" is required"
+    UnprocessableEntity:
+      description: Unprocessable Entity, invalid data provided
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            nameTooShort:
+              value:
+                message: "\"name\" length must be at least 5 characters long"
