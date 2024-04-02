@@ -4,13 +4,12 @@ info:
   description: API for managing products and sales
   version: 1.0.0
 servers:
-  - url: http://localhost:3001
-  - url: http://localhost:7000
+- url: http://localhost:3001
 paths:
   /products:
     get:
       tags:
-        - Products
+      - Products
       summary: Get all products
       description: Retrieves a list of all products.
       responses:
@@ -20,9 +19,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductList'
+              example:
+              - id: 3
+                name: "Machado de Xango"
+              - id: 4
+                name: "Adaga de Ogum"
     post:
       tags:
-        - Products
+      - Products
       summary: Create a new product
       requestBody:
         required: true
@@ -33,7 +37,7 @@ paths:
             example:
               name: "Machado de Xango"
       responses:
-        '200':
+        '201':
           $ref: '#/components/responses/ProductCreated'
         '400':
           $ref: '#/components/responses/BadRequestCreateProduct'
@@ -42,15 +46,15 @@ paths:
   /products/{id}:
     get:
       tags:
-        - Products
+      - Products
       summary: Get a product by ID
       parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID of the product to retrieve
-          schema:
-            type: string
+      - in: path
+        name: id
+        required: true
+        description: ID of the product to retrieve
+        schema:
+          type: string
       responses:
         '200':
           $ref: '#/components/responses/ProductRetrieved'
@@ -58,15 +62,15 @@ paths:
           $ref: '#/components/responses/ProductNotFound'
     put:
       tags:
-        - Products
+      - Products
       summary: Update a product by ID
       parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID of the product to update
-          schema:
-            type: string
+      - in: path
+        name: id
+        required: true
+        description: ID of the product to update
+        schema:
+          type: string
       requestBody:
         required: true
         content:
@@ -74,7 +78,7 @@ paths:
             schema:
               $ref: '#/components/schemas/ProductUpdateRequest'
             example:
-              name: "Machado de Assis"
+              name: "Bola quadrada"
         description: Example of a product update request body
       responses:
         '200':
@@ -87,20 +91,127 @@ paths:
           $ref: '#/components/responses/UnprocessableEntity'
     delete:
       tags:
-        - Products
+      - Products
       summary: Delete a product by ID
       parameters:
-        - in: path
-          name: id
-          required: true
-          description: ID of the product to delete
-          schema:
-            type: string
+      - in: path
+        name: id
+        required: true
+        description: ID of the product to delete
+        schema:
+          type: string
       responses:
         '204':
           $ref: '#/components/responses/ProductDeleted'
         '404':
           $ref: '#/components/responses/ProductNotFound'
+  /sales:
+    get:
+      tags:
+      - Sales
+      summary: Get all sales
+      description: Retrieves a list of all sales.
+      responses:
+        '200':
+          description: A list of sales
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllSalesReturn'
+              example:
+                id: 16
+                itemsSold:
+                - productId: 1
+                  quantity: 1
+                - productId: 2
+                  quantity: 5
+    post:
+      tags:
+      - Sales
+      summary: Create a new sale
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestBodyCreateSale'
+            example:
+            - productId: 1
+              quantity: 1
+            - productId: 2
+              quantity: 5
+      responses:
+        '201':
+          description: The created sale
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sale'
+              example:
+                id: 16
+                itemsSold:
+                - productId: 1
+                  quantity: 1
+                - productId: 2
+                  quantity: 5
+        '400':
+          $ref: '#/components/responses/BadRequestQuantity'
+        '404':
+          $ref: '#/components/responses/ProductNotFound'
+    delete:
+      tags:
+      - Sales
+      summary: Delete a sale by ID
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: ID of the sale to delete
+        schema:
+          type: string
+      responses:
+        '204':
+          $ref: '#/components/responses/SaleDeleted'
+        '404':
+          $ref: '#/components/responses/SaleNotFound'
+  /sales/{saleId}/products/{productId}/quantity:
+    put:
+      tags:
+      - Sales
+      summary: Update quantity of a product in a sale by ID
+      parameters:
+      - in: path
+        name: saleId
+        required: true
+        description: ID of the sale to update
+        schema:
+          type: string
+      - in: path
+        name: productId
+        required: true
+        description: ID of the product to update quantity
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuantityToUpDate'
+            example:
+              quantity: 20
+      responses:
+        '200':
+          description: The updated sale
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SaleUpdatedQuantity'
+              example:
+                date: "2024-04-02T14:43:15.828Z"
+                productId: 2
+                quantity: 20
+                saleId: 1
 components:
   schemas:
     ProductList:
@@ -117,8 +228,8 @@ components:
           type: string
           description: The name of the product
       required:
-        - id
-        - name
+      - id
+      - name
     ProductCreateRequest:
       type: object
       properties:
@@ -126,7 +237,7 @@ components:
           type: string
           description: The name of the product
       required:
-        - name
+      - name
     ProductUpdateRequest:
       type: object
       properties:
@@ -134,7 +245,79 @@ components:
           type: string
           description: The updated name of the product
       required:
-        - name
+      - name
+    AllSalesReturn:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the created sale
+        itemsSold:
+          type: array
+          description: The list of items sold
+          items:
+            type: object
+            properties:
+              productId:
+                type: integer
+                description: The ID of the product sold
+              quantity:
+                type: integer
+                description: The quantity of the product sold
+    Sale:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the created sale
+        itemsSold:
+          type: array
+          description: The list of items sold
+          items:
+            type: object
+            properties:
+              productId:
+                type: integer
+                description: The ID of the product sold
+              quantity:
+                type: integer
+                description: The quantity of the product sold
+    RequestBodyCreateSale:
+      type: array
+      items:
+        type: object
+        properties:
+          productId:
+            type: integer
+          quantity:
+            type: integer
+        required:
+        - productId
+        - quantity
+    QuantityToUpDate:
+      type: object
+      properties:
+        quantity:
+          type: int
+          description: The quantity of the product ot be updated
+      required:
+      - quantity
+    SaleUpdatedQuantity:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+          description: Date and time of the sale update
+        productId:
+          type: integer
+          description: ID of the sold product
+        quantity:
+          type: integer
+          description: Updated quantity of the sold product
+        saleId:
+          type: integer
+          description: Sale ID
   responses:
     ProductNotFound:
       description: Product not found
@@ -145,12 +328,27 @@ components:
             properties:
               message:
                 type: string
+          example:
+            message: "Product not found"
+    BadRequestQuantity:
+      description: Bad request on create a new sale
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
           examples:
-            productNotFound:
+            ProductIdIsMissing:
               value:
-                message: "Product not found"
-    BadRequest:
-      description: Bad request, invalid data provided
+                message: "\"productId\" is required"
+            QuantityIsMissing:
+              value:
+                message: "\"quantity\" is required"
+            QuantityIsNoneOrNegative:
+              value:
+                message: "\"quantity\" must be greater than or equal to 1"
     ProductCreated:
       description: Successfully created a new product
       content:
@@ -177,7 +375,7 @@ components:
             $ref: '#/components/schemas/Product'
           example:
             id: 3
-            name: "Machado de Assis"
+            name: "Bola quadrada"
     ProductDeleted:
       description: Product successfully deleted
     BadRequestCreateProduct:
@@ -189,10 +387,8 @@ components:
             properties:
               message:
                 type: string
-          examples:
-            missingName:
-              value:
-                message: "\"name\" is required"
+          example:
+            message: "\"name\" is required"
     UnprocessableEntity:
       description: Unprocessable Entity, invalid data provided
       content:
@@ -202,7 +398,19 @@ components:
             properties:
               message:
                 type: string
-          examples:
-            nameTooShort:
-              value:
-                message: "\"name\" length must be at least 5 characters long"
+          example:
+            message: "\"name\" length must be at least 5 characters long"
+    SaleNotFound:
+      description: Sale not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: "Sale not found"
+    SaleDeleted:
+      description: Sale successfully deleted
+
