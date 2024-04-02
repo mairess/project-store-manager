@@ -43,6 +43,42 @@ paths:
           $ref: '#/components/responses/BadRequestCreateProduct'
         '422':
           $ref: '#/components/responses/UnprocessableEntity'
+  /products/search:
+    get:
+      tags:
+      - Products
+      summary: Search products based on filters
+      description: |
+        This endpoint allows users to search for products based on name.
+      parameters:
+      - in: query
+        name: q
+        description: Name filter
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Products found successfully
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/SearchProduct'
+                  - $ref: '#/components/schemas/FoundOneProduct'
+                  - $ref: '#/components/schemas/NotFoundProducts'
+              examples:
+                Product found:
+                  value:
+                  - id: 1
+                    name: Martelo de Thor
+                All Products:
+                  value:
+                  - id: 1
+                    name: Martelo de Thor
+                  - id: 2
+                    name: Traje de encolhimento
+                Product not found:
+                  value: []
   /products/{id}:
     get:
       tags:
@@ -212,6 +248,10 @@ paths:
                 productId: 2
                 quantity: 20
                 saleId: 1
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequestQuantityOnly'
 components:
   schemas:
     ProductList:
@@ -298,7 +338,7 @@ components:
       type: object
       properties:
         quantity:
-          type: int
+          type: integer
           description: The quantity of the product ot be updated
       required:
       - quantity
@@ -318,6 +358,29 @@ components:
         saleId:
           type: integer
           description: Sale ID
+    SearchProduct:
+       type: array
+       items:
+         type: object
+         properties:
+           id:
+             type: integer
+           name:
+             type: string
+         required:
+         - productId
+         - quantity
+    FoundOneProduct:
+      type: array
+      items:
+        $ref: '#/components/schemas/Product'
+    FoundAllProducts:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProductList'
+    NotFoundProducts:
+      type: array
+      items: []
   responses:
     ProductNotFound:
       description: Product not found
@@ -413,4 +476,35 @@ components:
             message: "Sale not found"
     SaleDeleted:
       description: Sale successfully deleted
-
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            SaleNotFound:
+              value:
+                message: "Sale not found"
+            ProductNotFound:
+              value:
+                message: "Product not found in sale"
+    BadRequestQuantityOnly:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            QuantityIsMissing:
+              value:
+                message: "\"quantity\" is required"
+            QuantityIsNoneOrNegative:
+              value:
+                message: "\"quantity\" must be greater than or equal to 1"
