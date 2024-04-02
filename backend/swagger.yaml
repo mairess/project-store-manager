@@ -1,0 +1,510 @@
+openapi: 3.0.0
+info:
+  title: Store Manager API
+  description: API for managing products and sales
+  version: 1.0.0
+servers:
+- url: http://localhost:3001
+paths:
+  /products:
+    get:
+      tags:
+      - Products
+      summary: Get all products
+      description: Retrieves a list of all products.
+      responses:
+        '200':
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductList'
+              example:
+              - id: 3
+                name: "Machado de Xango"
+              - id: 4
+                name: "Adaga de Ogum"
+    post:
+      tags:
+      - Products
+      summary: Create a new product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreateRequest'
+            example:
+              name: "Machado de Xango"
+      responses:
+        '201':
+          $ref: '#/components/responses/ProductCreated'
+        '400':
+          $ref: '#/components/responses/BadRequestCreateProduct'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /products/search:
+    get:
+      tags:
+      - Products
+      summary: Search products based on filters
+      description: |
+        This endpoint allows users to search for products based on name.
+      parameters:
+      - in: query
+        name: q
+        description: Name filter
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Products found successfully
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/SearchProduct'
+                  - $ref: '#/components/schemas/FoundOneProduct'
+                  - $ref: '#/components/schemas/NotFoundProducts'
+              examples:
+                Product found:
+                  value:
+                  - id: 1
+                    name: Martelo de Thor
+                All Products:
+                  value:
+                  - id: 1
+                    name: Martelo de Thor
+                  - id: 2
+                    name: Traje de encolhimento
+                Product not found:
+                  value: []
+  /products/{id}:
+    get:
+      tags:
+      - Products
+      summary: Get a product by ID
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: ID of the product to retrieve
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/ProductRetrieved'
+        '404':
+          $ref: '#/components/responses/ProductNotFound'
+    put:
+      tags:
+      - Products
+      summary: Update a product by ID
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: ID of the product to update
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductUpdateRequest'
+            example:
+              name: "Bola quadrada"
+        description: Example of a product update request body
+      responses:
+        '200':
+          $ref: '#/components/responses/ProductUpdated'
+        '400':
+          $ref: '#/components/responses/BadRequestCreateProduct'
+        '404':
+          $ref: '#/components/responses/ProductNotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      tags:
+      - Products
+      summary: Delete a product by ID
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: ID of the product to delete
+        schema:
+          type: string
+      responses:
+        '204':
+          $ref: '#/components/responses/ProductDeleted'
+        '404':
+          $ref: '#/components/responses/ProductNotFound'
+  /sales:
+    get:
+      tags:
+      - Sales
+      summary: Get all sales
+      description: Retrieves a list of all sales.
+      responses:
+        '200':
+          description: A list of sales
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllSalesReturn'
+              example:
+                id: 16
+                itemsSold:
+                - productId: 1
+                  quantity: 1
+                - productId: 2
+                  quantity: 5
+    post:
+      tags:
+      - Sales
+      summary: Create a new sale
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestBodyCreateSale'
+            example:
+            - productId: 1
+              quantity: 1
+            - productId: 2
+              quantity: 5
+      responses:
+        '201':
+          description: The created sale
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sale'
+              example:
+                id: 16
+                itemsSold:
+                - productId: 1
+                  quantity: 1
+                - productId: 2
+                  quantity: 5
+        '400':
+          $ref: '#/components/responses/BadRequestQuantity'
+        '404':
+          $ref: '#/components/responses/ProductNotFound'
+    delete:
+      tags:
+      - Sales
+      summary: Delete a sale by ID
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: ID of the sale to delete
+        schema:
+          type: string
+      responses:
+        '204':
+          $ref: '#/components/responses/SaleDeleted'
+        '404':
+          $ref: '#/components/responses/SaleNotFound'
+  /sales/{saleId}/products/{productId}/quantity:
+    put:
+      tags:
+      - Sales
+      summary: Update quantity of a product in a sale by ID
+      parameters:
+      - in: path
+        name: saleId
+        required: true
+        description: ID of the sale to update
+        schema:
+          type: string
+      - in: path
+        name: productId
+        required: true
+        description: ID of the product to update quantity
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuantityToUpDate'
+            example:
+              quantity: 20
+      responses:
+        '200':
+          description: The updated sale
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SaleUpdatedQuantity'
+              example:
+                date: "2024-04-02T14:43:15.828Z"
+                productId: 2
+                quantity: 20
+                saleId: 1
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/BadRequestQuantityOnly'
+components:
+  schemas:
+    ProductList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Product'
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the product
+        name:
+          type: string
+          description: The name of the product
+      required:
+      - id
+      - name
+    ProductCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the product
+      required:
+      - name
+    ProductUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The updated name of the product
+      required:
+      - name
+    AllSalesReturn:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the created sale
+        itemsSold:
+          type: array
+          description: The list of items sold
+          items:
+            type: object
+            properties:
+              productId:
+                type: integer
+                description: The ID of the product sold
+              quantity:
+                type: integer
+                description: The quantity of the product sold
+    Sale:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The ID of the created sale
+        itemsSold:
+          type: array
+          description: The list of items sold
+          items:
+            type: object
+            properties:
+              productId:
+                type: integer
+                description: The ID of the product sold
+              quantity:
+                type: integer
+                description: The quantity of the product sold
+    RequestBodyCreateSale:
+      type: array
+      items:
+        type: object
+        properties:
+          productId:
+            type: integer
+          quantity:
+            type: integer
+        required:
+        - productId
+        - quantity
+    QuantityToUpDate:
+      type: object
+      properties:
+        quantity:
+          type: integer
+          description: The quantity of the product ot be updated
+      required:
+      - quantity
+    SaleUpdatedQuantity:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+          description: Date and time of the sale update
+        productId:
+          type: integer
+          description: ID of the sold product
+        quantity:
+          type: integer
+          description: Updated quantity of the sold product
+        saleId:
+          type: integer
+          description: Sale ID
+    SearchProduct:
+       type: array
+       items:
+         type: object
+         properties:
+           id:
+             type: integer
+           name:
+             type: string
+         required:
+         - productId
+         - quantity
+    FoundOneProduct:
+      type: array
+      items:
+        $ref: '#/components/schemas/Product'
+    FoundAllProducts:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProductList'
+    NotFoundProducts:
+      type: array
+      items: []
+  responses:
+    ProductNotFound:
+      description: Product not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: "Product not found"
+    BadRequestQuantity:
+      description: Bad request on create a new sale
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            ProductIdIsMissing:
+              value:
+                message: "\"productId\" is required"
+            QuantityIsMissing:
+              value:
+                message: "\"quantity\" is required"
+            QuantityIsNoneOrNegative:
+              value:
+                message: "\"quantity\" must be greater than or equal to 1"
+    ProductCreated:
+      description: Successfully created a new product
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
+          example:
+            id: 3
+            name: "Machado de Xango"
+    ProductRetrieved:
+      description: Successfully retrieved the product
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
+          example:
+            id: 1
+            name: "Martelo de Thor"
+    ProductUpdated:
+      description: Successfully updated the product
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Product'
+          example:
+            id: 3
+            name: "Bola quadrada"
+    ProductDeleted:
+      description: Product successfully deleted
+    BadRequestCreateProduct:
+      description: Bad request, invalid data provided
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: "\"name\" is required"
+    UnprocessableEntity:
+      description: Unprocessable Entity, invalid data provided
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: "\"name\" length must be at least 5 characters long"
+    SaleNotFound:
+      description: Sale not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: "Sale not found"
+    SaleDeleted:
+      description: Sale successfully deleted
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            SaleNotFound:
+              value:
+                message: "Sale not found"
+            ProductNotFound:
+              value:
+                message: "Product not found in sale"
+    BadRequestQuantityOnly:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          examples:
+            QuantityIsMissing:
+              value:
+                message: "\"quantity\" is required"
+            QuantityIsNoneOrNegative:
+              value:
+                message: "\"quantity\" must be greater than or equal to 1"
