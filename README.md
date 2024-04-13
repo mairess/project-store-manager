@@ -1,8 +1,16 @@
 # <p align="center">Projeto Store Manager</p>
 
+<div align="center">
+  
+| Statements                  | Branches                | Functions                 | Lines                |
+| --------------------------- | ----------------------- | ------------------------- | -------------------- |
+| ![Statements](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg) | ![Branches](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg) | ![Functions](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg) | ![Lines](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg)    |
+
+</div>
+
 ## Contexto
 
-Este projeto consiste em uma `API completamente RESTful` para gerenciamento de vendas, utilizando `Node`, `Express`, `Javascript,` e `MySQL`, seguindo a arquitetura em camadas `MSC`. Nessa aplicação é possível fazer um `CRUD`, criar, visualizar, deletar e atualizar produtos e vendas. Além disso, ela possui uma boa cobertura de teste utilizando `mocha`, `chai` e `sinon` e a documentação é feito com o `swagger`
+Este projeto consiste em uma `API completamente RESTful` para gerenciamento de vendas, utilizando `Node`, `Express`, `Javascript,` e `MySQL`, seguindo a arquitetura em camadas `MSC`. Nessa aplicação é possível fazer um `CRUD`, criar, visualizar, deletar e atualizar produtos e vendas. Além disso, ela possui uma boa cobertura de teste utilizando `mocha`, `chai` e `sinon` e a documentação é feita com o `swagger`
 
 <details>
 
@@ -92,8 +100,15 @@ npm run test:coverage
 
 A documentação desta api está disponível em `/api-docs`
 
-## Competências desenvolvidas
+## Stack utilizadas
 
-- Habilidade para implementar API utilizando `arquitetura em camadas`.
-- Habilidade para `teste unitário`.
-- Habilidade para `teste de integração`
+- Javascript
+- Node
+- Express
+- MySQL
+- Joi
+- Docker
+- swagger-ui
+- Mocha
+- Chai
+- Sinon
