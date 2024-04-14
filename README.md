@@ -100,7 +100,7 @@ npm run test:coverage
 
 A documentação desta api está disponível em `/api-docs`
 
-## Stack utilizadas
+## Tecnologias utilizadas
 
 - Javascript
 - Node
