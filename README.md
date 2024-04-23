@@ -2,9 +2,9 @@
 
 <div align="center">
   
-| Statements                  | Branches                | Functions                 | Lines                |
-| --------------------------- | ----------------------- | ------------------------- | -------------------- |
-| ![Statements](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg) | ![Branches](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg) | ![Functions](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg) | ![Lines](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg)    |
+<a href="https://codecov.io/gh/mairess/project-store-manager" > 
+ <img src="https://codecov.io/gh/mairess/project-store-manager/graph/badge.svg?token=0E5II8VC4C"/> 
+ </a>
 
 </div>
 
