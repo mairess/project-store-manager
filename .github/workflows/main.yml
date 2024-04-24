@@ -35,5 +35,5 @@ jobs:
       uses: codecov/codecov-action@v4.0.1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: "backend/coverage/coverage-summary.json"
+        files: backend/coverage
         slug: mairess/project-store-manager
